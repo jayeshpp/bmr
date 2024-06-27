@@ -1,5 +1,8 @@
 'use client';
+import withAuth from '@/hoc/withAuth';
 
-export default function Profile() {
+function Profile() {
   return <section>Profile</section>;
 }
+
+export default withAuth(Profile);
