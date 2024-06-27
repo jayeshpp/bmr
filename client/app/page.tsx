@@ -1,30 +1,25 @@
 'use client';
 
-import authAPI from '@/api/auth';
-import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/context/AuthProvider';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { SyntheticEvent } from 'react';
 
 export default function Home() {
   const router = useRouter();
   const authContext = useAuth();
-  console.log(authContext);
 
-  const handleLogout = async (event: SyntheticEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    try {
-      await authAPI.logOut();
-      router.push('/login');
-    } catch (error) {
-      throw new Error('Something went wrong');
-    }
-  };
   return (
     <section className='home'>
-      home
-      <Button onClick={() => router.push('/login')}>Login</Button>
-      {authContext.user ? <Button onClick={handleLogout}>Logout</Button> : null}
+      <div className='py-5'>
+        <Image
+          src='/assets/images/logo.png'
+          width={120}
+          height={52}
+          priority
+          className='m-auto'
+          alt='Picture of the author'
+        />
+      </div>
     </section>
   );
 }

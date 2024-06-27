@@ -1,14 +1,15 @@
 import { Button } from '@/components/ui/Button';
 import { TextBox } from '@/components/ui/TextBox';
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
-import authAPI from '@/api/auth';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthProvider';
 
 export const LoginForm = () => {
   const [userName, setUserName] = useState('jayeshldn@gmail.com');
   const [password, setPassword] = useState('test123');
 
-  const router = useRouter()
+  const router = useRouter();
+  const { login } = useAuth();
 
   const handleUserName = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -19,20 +20,9 @@ export const LoginForm = () => {
     setPassword(value);
   };
 
-  const handleLogin = async (event: SyntheticEvent<HTMLButtonElement>) => {
+  const handleLogin = (event: SyntheticEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    try {
-      const payload = {
-        email: userName,
-        password,
-      };
-      await authAPI.logIn(payload);
-      router.push('/')
-    } catch (error) {
-      console.log(error);
-
-      throw new Error('Something went wrong');
-    }
+    login(userName, password);
   };
 
   return (

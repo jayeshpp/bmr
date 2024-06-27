@@ -1,1 +1,1 @@
-export const Footer = () => <footer></footer>;
+export { Footer } from './Footer';
