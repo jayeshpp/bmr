@@ -1,3 +1,9 @@
+"use client"
+
+import { LoginForm } from "./LoginForm";
+
 export default function Login() {
-  return <section className='container'>login</section>;
+  return <section className='container'>
+    <LoginForm />
+  </section>;
 }

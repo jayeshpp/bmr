@@ -30,7 +30,10 @@ export function handleErrorResponse(error: any): never {
   }
 }
 
-export async function performRequest<T>(requestFunction: (...args: any[]) => Promise<T>, ...args: any[]): Promise<{ status: number; data: T }> {
+export async function performRequest<T>(
+  requestFunction: (...args: any[]) => Promise<T>,
+  ...args: any[]
+): Promise<{ status: number; data: T }> {
   try {
     const response: any = await requestFunction(...args);
     return {

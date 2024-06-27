@@ -6,6 +6,7 @@ export const Header = () => (
       src='/assets/images/logo.png'
       width={120}
       height={52}
+      priority
       alt='Picture of the author'
     />
   </header>

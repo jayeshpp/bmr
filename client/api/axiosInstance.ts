@@ -4,13 +4,13 @@ import { BASE_URL } from '@/constants/app';
 
 // Create a new Axios instance
 const instance = axios.create({
+  withCredentials: true,
   baseURL: BASE_URL, // Your API base URL
 });
 
 // Interceptors for request and response
 instance.interceptors.request.use(
   (config) => {
-    // You can modify the request config here
     return config;
   },
   (error) => {
