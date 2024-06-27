@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { login, signup, logout, checkSession } from "../controllers/authController";
+import { login, register, logout, checkSession } from "../controllers/authController";
 import { isAuthenticated } from "../middlewares/authMiddleware";
 
 const router = Router();
 
 router.post("/login", login);
-router.post("/signup", isAuthenticated, signup);
+router.post("/register", register);
 router.post("/logout", isAuthenticated, logout);
 router.get("/checkSession", checkSession);
 

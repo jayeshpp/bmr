@@ -1,7 +1,7 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { IMember } from "../interfaces/member.interface";
+import { IUser } from "../interfaces/user.interface";
 
-const MemberSchema: Schema = new mongoose.Schema(
+const UserSchema: Schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     email: { type: String, unique: true, required: true },
@@ -15,6 +15,6 @@ const MemberSchema: Schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Member: Model<IMember> = mongoose.model<IMember>("Member", MemberSchema);
+const User: Model<IUser> = mongoose.model<IUser>("User", UserSchema);
 
-export default Member;
+export default User;

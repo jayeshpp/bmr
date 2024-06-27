@@ -14,7 +14,7 @@ const app = express();
 
 declare module "express-session" {
   interface SessionData {
-    member: { [key: string]: any };
+    user: { [key: string]: any };
   }
 }
 

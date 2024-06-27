@@ -1,30 +1,30 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import Member from "../models/Member";
+import User from "../models/User";
 
-export const signup = async (req: Request, res: Response): Promise<void> => {
+export const register = async (req: Request, res: Response): Promise<void> => {
   const { name, email, password } = req.body;
 
   try {
-    const existingMember = await Member.findOne({ email });
-    if (existingMember) {
-      res.status(400).json({ message: "Member already exists" });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      res.status(400).json({ message: "User already exists" });
       return;
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const newMember = new Member({ name, email, password: hashedPassword });
-    await newMember.save();
+    const newUser = new User({ name, email, password: hashedPassword });
+    await newUser.save();
 
     const token = jwt.sign(
-      { id: newMember._id },
+      { id: newUser._id },
       process.env.JWT_SECRET as string,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 
-    res.status(201).json({ member: newMember, token });
+    res.status(201).json({ user: newUser, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -34,20 +34,20 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
   try {
-    const member = await Member.findOne({ email });
-    if (!member) {
-      res.status(404).json({ message: "Member not found" });
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
       return;
     }
 
-    const isPasswordCorrect = await bcrypt.compare(password, member.password);
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       res.status(400).json({ message: "Invalid credentials" });
       return;
     }
 
     const token = jwt.sign(
-      { id: member._id },
+      { id: user._id },
       process.env.JWT_SECRET as string,
       {
         expiresIn: process.env.JWT_EXPIRES_IN,
@@ -55,20 +55,20 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     );
 
     const payload = {
-      id: member._id,
-      name: member.name,
-      email: member.email,
+      id: user._id,
+      name: user.name,
+      email: user.email,
       profilePic: 'https://placehold.co/400x400',
     }
 
     // Set session cookie
-    req.session.member = payload; // Store user data in session
+    req.session.user = payload; // Store user data in session
     res.cookie("sessionId", req.sessionID, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds, should match session cookie maxAge
     });
 
-    res.status(200).json({ member, token });
+    res.status(200).json({ user, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -91,8 +91,8 @@ export const checkSession = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  if (req.session.member) {
-    res.status(201).json({ valid: true, ...req.session.member });
+  if (req.session.user) {
+    res.status(201).json({ valid: true, ...req.session.user });
   } else {
     res.status(201).json({ valid: false });
   }
