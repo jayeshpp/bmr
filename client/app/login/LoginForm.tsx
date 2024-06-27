@@ -1,12 +1,14 @@
 import { Button } from '@/components/ui/Button';
 import { TextBox } from '@/components/ui/TextBox';
-import { ChangeEvent, SyntheticEvent, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import authAPI from '@/api/auth';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export const LoginForm = () => {
   const [userName, setUserName] = useState('jayeshldn@gmail.com');
   const [password, setPassword] = useState('test123');
+
+  const router = useRouter()
 
   const handleUserName = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -25,19 +27,10 @@ export const LoginForm = () => {
         password,
       };
       await authAPI.logIn(payload);
-      //redirect('/')
+      router.push('/')
     } catch (error) {
       console.log(error);
 
-      throw new Error('Something went wrong');
-    }
-  };
-  const handleLogout = async (event: SyntheticEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    try {
-      await authAPI.logOut();
-      //redirect('/')
-    } catch (error) {
       throw new Error('Something went wrong');
     }
   };
@@ -47,7 +40,6 @@ export const LoginForm = () => {
       <TextBox onChange={handleUserName} label='Email ID' value={userName} />
       <TextBox onChange={handlePassword} label='Password' value={password} />
       <Button onClick={handleLogin}>Login</Button>
-      <Button onClick={handleLogout}>Logout</Button>
     </form>
   );
 };

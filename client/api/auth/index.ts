@@ -13,6 +13,9 @@ const authAPI = {
   signUp: async () => {
     return performRequest(axioInstance.post, '/auth/signup');
   },
+  checkSession: async () => {
+    return performRequest(axioInstance.get, '/auth/checkSession');
+  },
 };
 
 export default authAPI;
