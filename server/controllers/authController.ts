@@ -7,7 +7,6 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
   const { name, email, password } = req.body;
 
   try {
-
     const existingMember = await Member.findOne({ email });
     if (existingMember) {
       res.status(400).json({ message: "Member already exists" });
@@ -56,7 +55,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     );
 
     // Set session cookie
-    req.session.member = { id: member._id, email: member.email };; // Store user data in session
+    req.session.member = { id: member._id, email: member.email }; // Store user data in session
     res.cookie("sessionId", req.sessionID, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds, should match session cookie maxAge
@@ -78,4 +77,15 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
     res.clearCookie("sessionId");
     res.status(200).json({ message: "Logged out successfully" });
   });
+};
+
+export const checkSession = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (req.session.member) {
+    res.status(201).json({ member: req.session.member, valid: true });
+  } else {
+    res.status(201).json({ valid: false });
+  }
 };
