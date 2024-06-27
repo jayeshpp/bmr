@@ -54,8 +54,15 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       }
     );
 
+    const payload = {
+      id: member._id,
+      name: member.name,
+      email: member.email,
+      profilePic: 'https://placehold.co/400x400',
+    }
+
     // Set session cookie
-    req.session.member = { id: member._id, email: member.email }; // Store user data in session
+    req.session.member = payload; // Store user data in session
     res.cookie("sessionId", req.sessionID, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds, should match session cookie maxAge
@@ -75,6 +82,7 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
       return;
     }
     res.clearCookie("sessionId");
+    res.clearCookie("connect.sid");
     res.status(200).json({ message: "Logged out successfully" });
   });
 };
@@ -84,7 +92,7 @@ export const checkSession = async (
   res: Response
 ): Promise<void> => {
   if (req.session.member) {
-    res.status(201).json({ member: req.session.member, valid: true });
+    res.status(201).json({ valid: true, ...req.session.member });
   } else {
     res.status(201).json({ valid: false });
   }

@@ -7,6 +7,6 @@ const router = Router();
 router.post("/login", login);
 router.post("/signup", isAuthenticated, signup);
 router.post("/logout", isAuthenticated, logout);
-router.get("/checkSession", isAuthenticated, checkSession);
+router.get("/checkSession", checkSession);
 
 export default router;
