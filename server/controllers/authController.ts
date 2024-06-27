@@ -7,6 +7,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
   const { name, email, password } = req.body;
 
   try {
+
     const existingMember = await Member.findOne({ email });
     if (existingMember) {
       res.status(400).json({ message: "Member already exists" });
@@ -55,7 +56,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     );
 
     // Set session cookie
-    // req.session.member = member; // Store user data in session
+    req.session.member = { id: member._id, email: member.email };; // Store user data in session
     res.cookie("sessionId", req.sessionID, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds, should match session cookie maxAge
