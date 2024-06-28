@@ -6,8 +6,8 @@ import {
 } from '@/interfaces/user.interface';
 
 const userAPI = {
-  register: async () => {
-    return performRequest(axioInstance.post, '/users');
+  register: async (payload: any) => {
+    return performRequest(axioInstance.post, '/users', payload);
   },
   getProfileByUserId: async (id: string): Promise<IProfileResponse> => {
     const response = await performRequest<IUserProfileResponse>(

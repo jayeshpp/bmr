@@ -14,16 +14,19 @@
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "formik": "^2.4.6",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
     "react-sliding-pane": "^7.3.0",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "husky": "^9.0.11",

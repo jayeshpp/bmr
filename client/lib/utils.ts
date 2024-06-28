@@ -7,3 +7,11 @@ export const getFullName = ({
 }) => {
   return [firstName, lastName].join(' ');
 };
+
+export const debounce = (fn: (...args: any[]) => void, delay = 300) => {
+  let timer: any;
+  return (...args: any[]) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+};
