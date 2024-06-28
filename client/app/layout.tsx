@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Layout>
-            <main className='px-5'>
+            <main className='p-5'>
               <div className='container m-auto'>{children}</div>
             </main>
           </Layout>

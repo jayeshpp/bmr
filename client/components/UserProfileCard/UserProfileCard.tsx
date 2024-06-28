@@ -1,10 +1,11 @@
 import { useAuth } from '@/context/AuthProvider';
+import { getFullName } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export const UserProfileCard = () => {
   const {
-    user: { valid, name, email, profilePic },
+    user: { valid, firstName, lastName, email, profilePic },
   } = useAuth();
 
   if (!valid)
@@ -19,15 +20,18 @@ export const UserProfileCard = () => {
         </Link>
       </div>
     );
+
+  const fullName = getFullName({ firstName, lastName });
+
   return (
     <div className='bg-gray-200 p-4'>
       <Image
         src={`/assets/images/placeholder.jpg`}
         width={100}
         height={100}
-        alt={name}
+        alt={fullName}
       />
-      <div>{name}</div>
+      <div>{fullName}</div>
       <div>{email}</div>
     </div>
   );

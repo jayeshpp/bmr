@@ -6,7 +6,7 @@ interface IHeader {
 }
 
 export const Header = ({ handleOpenPane }: IHeader) => (
-  <header className='h-[50px] px-5 flex items-center gap-3'>
+  <header className='h-[50px] px-5 flex items-center gap-3 bg-gray-200'>
     <Hamburger onClick={handleOpenPane} />
     <Link href='/'>
       BM Riders
