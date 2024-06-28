@@ -8,12 +8,7 @@ import { useEffect, useState } from 'react';
 import { IProfileResponse } from '@/interfaces/user.interface';
 import { ProfileInfo } from './ProfileInfo';
 
-interface IProfile {
-  userId: string;
-  fullName: string;
-}
-
-const Profile: React.FC<IProfile> = ({ userId, fullName }) => {
+function Profile({ userId, fullName }: any) {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<IProfileResponse | null>(null);
 
@@ -39,7 +34,6 @@ const Profile: React.FC<IProfile> = ({ userId, fullName }) => {
 
   if (loading) return <div>Loading...</div>;
 
-
   return (
     <section>
       <div className='bg-gray-100 h-[200px] -m-5'>
@@ -59,6 +53,6 @@ const Profile: React.FC<IProfile> = ({ userId, fullName }) => {
       </div>
     </section>
   );
-};
+}
 
 export default withAuth(Profile);

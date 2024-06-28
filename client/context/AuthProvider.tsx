@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const sessionData = await authAPI.checkSession();
         if (sessionData?.data) setUser(sessionData.data);
-        
+
         /* if(!sessionData?.data?.valid) {
           router.push('/');
         } */

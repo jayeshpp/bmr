@@ -9,6 +9,13 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Bangalore Malayali Riders',
   description: 'Grasp life by the handlebars',
+  keywords: ["BMR", "Riders", "Motor Bike", "Brotherhood"],
+  authors: [
+    {
+      name: "Jayesh",
+      url: "https://jayeshpp.github.io/",
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -18,7 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${inter.className} bg-background-light dark:bg-background-dark`}>
+      <body
+        className={`${inter.className} bg-background-light dark:bg-background-dark`}
+      >
         <AuthProvider>
           <Layout>
             <main className='p-5'>

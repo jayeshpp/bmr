@@ -3,13 +3,16 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthProvider';
 import { getFullName } from '@/lib/utils';
 
-interface UserPayload {
+export interface UserPayload {
   userId: string;
   fullName: string;
   email: string;
 }
 
-const withAuth = <P extends object>(WrappedComponent: React.ComponentType<P & UserPayload>): React.FC<P> => {
+const withAuth = <P extends object>(
+  WrappedComponent: React.ComponentType<P & UserPayload>
+): React.FC<P> => {
+  // eslint-disable-next-line react/display-name
   return (props: P) => {
     const {
       user: { valid: isAuthenticated, id, firstName, lastName, email },

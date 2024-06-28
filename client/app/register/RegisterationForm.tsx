@@ -47,63 +47,69 @@ export const RegisterationForm = () => {
 
   return (
     <>
-    <Typography component='h1' variant='bold' color='gray' shade='700'>Member Registration</Typography>
-    <Formik
-      initialValues={initialValues}
-      validationSchema={RegisterationSchema}
-      onSubmit={handleSubmit}
-    >
-      {({ isSubmitting, handleChange, values }) => (
-        <Form>
-          <div>
-            <TextBox
-              inputProps={{
-                type: 'text',
-                onChange: handleChange('firstName'),
-                value: values.firstName,
-              }}
-              label='First Name'
-            />
-            <ErrorMessage name='firstName' component='div' />
-          </div>
-          <div>
-            <TextBox
-              inputProps={{
-                type: 'text',
-                onChange: handleChange('lastName'),
-                value: values.lastName,
-              }}
-              label='Last Name'
-            />
-            <ErrorMessage name='lastName' component='div' />
-          </div>
-          <div>
-            <TextBox
-              inputProps={{
-                type: 'text',
-                onChange: handleChange('email'),
-                value: values.email,
-              }}
-              label='Email'
-            />
-            <ErrorMessage name='email' component='div' />
-          </div>
-          <div>
-            <TextBox
-              inputProps={{
-                type: 'password',
-                onChange: handleChange('password'),
-                value: values.password,
-              }}
-              label='Password'
-            />
-            <ErrorMessage name='password' component='div' />
-          </div>
-          {isSubmitting ? 'loading..' : ''}
-          <Button>Registeration</Button>
-        </Form>
-      )}
-    </Formik>
+      <Typography component='h1' variant='bold'>
+        Member Registration
+      </Typography>
+      <Typography component='p' variant='italic'>
+        Please complete the form below to join our club. After you register, one
+        of our admin team members will contact you.
+      </Typography>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={RegisterationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting, handleChange, values }) => (
+          <Form>
+            <div>
+              <TextBox
+                inputProps={{
+                  type: 'text',
+                  onChange: handleChange('firstName'),
+                  value: values.firstName,
+                }}
+                label='First Name'
+              />
+              <ErrorMessage name='firstName' component='div' />
+            </div>
+            <div>
+              <TextBox
+                inputProps={{
+                  type: 'text',
+                  onChange: handleChange('lastName'),
+                  value: values.lastName,
+                }}
+                label='Last Name'
+              />
+              <ErrorMessage name='lastName' component='div' />
+            </div>
+            <div>
+              <TextBox
+                inputProps={{
+                  type: 'text',
+                  onChange: handleChange('email'),
+                  value: values.email,
+                }}
+                label='Email'
+              />
+              <ErrorMessage name='email' component='div' />
+            </div>
+            <div>
+              <TextBox
+                inputProps={{
+                  type: 'password',
+                  onChange: handleChange('password'),
+                  value: values.password,
+                }}
+                label='Password'
+              />
+              <ErrorMessage name='password' component='div' />
+            </div>
+            {isSubmitting ? 'loading..' : ''}
+            <Button>Registeration</Button>
+          </Form>
+        )}
+      </Formik>
     </>
   );
 };
