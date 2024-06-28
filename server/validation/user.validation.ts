@@ -1,12 +1,29 @@
 import Joi from "joi";
 
 export const userValidationSchema = Joi.object({
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
-  role: Joi.string().valid("Member", "Crew", "Admin").default("Member"),
+  firstName: Joi.string().required().messages({
+    'string.empty': 'First name is required',
+    'any.required': 'First name is required',
+  }),
+  lastName: Joi.string().required().messages({
+    'string.empty': 'Last name is required',
+    'any.required': 'Last name is required',
+  }),
+  email: Joi.string().email().required().messages({
+    'string.email': 'Email must be a valid email address',
+    'string.empty': 'Email is required',
+    'any.required': 'Email is required',
+  }),
+  password: Joi.string().min(6).required().messages({
+    'string.min': 'Password must be at least 6 characters long',
+    'string.empty': 'Password is required',
+    'any.required': 'Password is required',
+  }),
+  role: Joi.string().valid('Member', 'Crew', 'Admin').default('Member').messages({
+    'any.only': 'Role must be one of Member, Crew, Admin',
+  }),
 });
+
 
 export const userProfileSchema = Joi.object({
   userId: Joi.string().required(),

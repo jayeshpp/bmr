@@ -2,9 +2,17 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
+import { userValidationSchema } from "../validation/user.validation";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   const { firstName, lastName, email, password } = req.body;
+
+  // Validate the request body
+  const { error } = userValidationSchema.validate(req.body);
+  if (error) {
+    res.status(400).json({ message: error.details[0].message });
+    return;
+  }
 
   try {
     const existingUser = await User.findOne({ email });
