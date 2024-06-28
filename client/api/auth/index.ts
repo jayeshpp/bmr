@@ -10,9 +10,6 @@ const authAPI = {
   logOut: async () => {
     return performRequest(axioInstance.post, '/auth/logout');
   },
-  register: async () => {
-    return performRequest(axioInstance.post, '/auth/register');
-  },
   checkSession: async () => {
     return performRequest(axioInstance.get, '/auth/checkSession');
   },

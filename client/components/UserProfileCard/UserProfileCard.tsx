@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export const UserProfileCard = () => {
   const {
-    user: { valid, firstName, lastName, email, profilePic },
+    user: { valid, firstName, lastName, email },
   } = useAuth();
 
   if (!valid)

@@ -6,7 +6,8 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 
 import connectDB from "./config/db";
-import authRoutes from "./routes/auth";
+import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
 
 dotenv.config();
 
@@ -40,7 +41,8 @@ app.use(
 );
 
 // Routes
-app.use("/api/auth", authRoutes);
+app.use("/api/v1", authRoutes);
+app.use("/api/v1", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 

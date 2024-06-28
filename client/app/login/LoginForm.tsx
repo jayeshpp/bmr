@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthProvider';
 
 export const LoginForm = () => {
-  const [userName, setUserName] = useState('jayeshldn@gmail.com');
+  const [userName, setUserName] = useState('ashika@gmail.com');
   const [password, setPassword] = useState('test123');
 
   const router = useRouter();

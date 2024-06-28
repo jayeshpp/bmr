@@ -1,6 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
 import { IUserProfile } from "../interfaces/user.interface";
-import { userProfileSchema } from "../validation/user.validation";
 
 const UserProfileSchema: Schema = new mongoose.Schema(
   {
@@ -76,15 +75,6 @@ const UserProfileSchema: Schema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-UserProfileSchema.pre("save", async function (next) {
-  try {
-    await userProfileSchema.validateAsync(this.toObject());
-    next();
-  } catch (err) {
-    if (err instanceof Error) next(err);
-  }
-});
 
 const UserProfile: Model<IUserProfile> = mongoose.model<IUserProfile>(
   "UserProfile",

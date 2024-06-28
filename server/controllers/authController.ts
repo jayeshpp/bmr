@@ -2,42 +2,6 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
-import { userValidationSchema } from "../validation/user.validation";
-
-export const register = async (req: Request, res: Response): Promise<void> => {
-  const { firstName, lastName, email, password } = req.body;
-
-  // Validate the request body
-  const { error } = userValidationSchema.validate(req.body);
-  if (error) {
-    res.status(400).json({ message: error.details[0].message });
-    return;
-  }
-
-  try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      res.status(400).json({ message: "User already exists" });
-      return;
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    const newUser = new User({ firstName, lastName, email, password: hashedPassword });
-    await newUser.save();
-
-    const token = jwt.sign(
-      { id: newUser._id },
-      process.env.JWT_SECRET as string,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
-    );
-
-    res.status(201).json({ user: newUser, token });
-  } catch (error) {
-    if(error instanceof Error)
-      res.status(500).json({ message: error.message });
-  }
-};
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
