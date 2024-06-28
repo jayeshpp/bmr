@@ -4,6 +4,8 @@ import { TextBox } from '@/components/ui/TextBox';
 import { ErrorMessage, Form, Formik } from 'formik';
 import userAPI from '@/api/user';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import { Typography } from '@/components/ui/Typography';
 
 const RegisterationSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
@@ -34,14 +36,18 @@ export const RegisterationForm = () => {
   const handleSubmit = async (values: RegisterationFormValues) => {
     try {
       await userAPI.register(values);
+      toast.success('Registration successful');
       router.push('/');
     } catch (error) {
+      if (error instanceof Error) toast.error(error.message);
       console.error('Registration failed', error);
       throw error;
     }
   };
 
   return (
+    <>
+    <Typography component='h1' variant='bold' color='gray' shade='700'>Member Registration</Typography>
     <Formik
       initialValues={initialValues}
       validationSchema={RegisterationSchema}
@@ -98,5 +104,6 @@ export const RegisterationForm = () => {
         </Form>
       )}
     </Formik>
+    </>
   );
 };

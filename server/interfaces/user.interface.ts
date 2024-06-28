@@ -6,6 +6,8 @@ export interface IUser extends Document {
   email: string;
   password: string;
   role: "Member" | "Crew" | "Admin";
+  isActive: boolean;
+  isEmailVerified: boolean;
 }
 
 export interface IUserProfile extends Document {

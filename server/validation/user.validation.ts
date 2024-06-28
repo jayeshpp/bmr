@@ -19,9 +19,6 @@ export const userValidationSchema = Joi.object({
     'string.empty': 'Password is required',
     'any.required': 'Password is required',
   }),
-  role: Joi.string().valid('Member', 'Crew', 'Admin').default('Member').messages({
-    'any.only': 'Role must be one of Member, Crew, Admin',
-  }),
 });
 
 
