@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -15,7 +15,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const newUser = new User({ name, email, password: hashedPassword });
+    const newUser = new User({ firstName, lastName, email, password: hashedPassword });
     await newUser.save();
 
     const token = jwt.sign(
@@ -26,7 +26,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     res.status(201).json({ user: newUser, token });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    if(error instanceof Error)
+      res.status(500).json({ message: error.message });
   }
 };
 
@@ -56,7 +57,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     const payload = {
       id: user._id,
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       profilePic: 'https://placehold.co/400x400',
     }
