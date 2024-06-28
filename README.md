@@ -10,7 +10,7 @@ Build a centralized platform for managing BMR activities such as member and even
 - Axios
 - Tailwind
 - Typescript
-- Formix
+- Formik
 - Yup
 
 #### Backend
