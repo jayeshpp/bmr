@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 export interface IUser extends Document {
   firstName: string;
@@ -9,6 +9,7 @@ export interface IUser extends Document {
 }
 
 export interface IUserProfile extends Document {
+  userId: mongoose.Schema.Types.ObjectId;
   dob: Date;
   countryCode: string;
   contactNumber: number;

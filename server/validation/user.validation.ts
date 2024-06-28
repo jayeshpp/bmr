@@ -30,6 +30,10 @@ export const userProfileValidationSchema = Joi.object({
     'string.empty': 'User ID is required',
     'any.required': 'User ID is required',
   }),
+  profilePic: Joi.string().required().messages({
+    'string.empty': 'Profile Picture is required',
+    'any.required': 'Profile Picture is required',
+  }),
   dob: Joi.date().iso().required().messages({
     'date.base': 'Date of birth must be a valid date',
     'date.format': 'Date of birth must be in ISO format (YYYY-MM-DD)',

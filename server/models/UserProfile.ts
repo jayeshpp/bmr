@@ -3,7 +3,6 @@ import { IUserProfile } from "../interfaces/user.interface";
 
 const UserProfileSchema: Schema = new mongoose.Schema(
   {
-    userId: { type: String, required: true },
     profilePic: { type: String, required: true },
     dob: { type: Date, required: true },
     countryCode: { type: String, default: "+91" },
@@ -72,6 +71,7 @@ const UserProfileSchema: Schema = new mongoose.Schema(
     youtubeChannel: { type: String, default: "" },
     volunteerPreference: { type: String, required: true },
     agreeToRules: { type: Boolean, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
 );

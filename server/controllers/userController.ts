@@ -52,16 +52,25 @@ export const addProfile = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { error } = userProfileValidationSchema.validate(req.body);
+  const { userId } = req.body;
+  const profileData = req.body;
+
+  const { error } = userProfileValidationSchema.validate(profileData);
   if (error) {
     res.status(400).json({ message: error.details[0].message });
     return;
   }
 
+  const existingProfile = await UserProfile.findOne({ userId });
+  if (existingProfile) {
+    res.status(400).json({ message: "Profile already exists" });
+    return;
+  }
+
   try {
-    const newProfile = new UserProfile(req.body);
-    await newProfile.save();
-    res.status(201).json({ profile: newProfile });
+    const newUserProfile = new UserProfile({ userId, ...profileData });
+    await newUserProfile.save();
+    res.status(201).json({ profile: newUserProfile });
   } catch (err) {
     if (err instanceof Error) res.status(500).json({ message: err.message });
   }
@@ -72,16 +81,18 @@ export const updateProfile = async (
   res: Response
 ): Promise<void> => {
   const { error } = userProfileValidationSchema.validate(req.body);
+  const { userId } = req.params;
+  const profileData = req.body;
   if (error) {
     res.status(400).json({ message: error.details[0].message });
     return;
   }
 
   try {
-    const updatedProfile = await UserProfile.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
+    const updatedProfile = await UserProfile.findOneAndUpdate(
+      { userId },
+      profileData,
+      { new: true, runValidators: true }
     );
     if (!updatedProfile) {
       res.status(404).json({ message: "Profile not found" });
@@ -97,19 +108,37 @@ export const deleteProfile = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  const { userId } = req.params;
+
   try {
-    const deletedProfile = await UserProfile.findByIdAndDelete(req.params.id);
-    if (!deletedProfile) {
-      res.status(404).json({ message: "Profile not found" });
+    // Delete the user
+    const userDeletionResult = await User.findByIdAndDelete(userId);
+    if (!userDeletionResult) {
+      res.status(404).json({ message: "User not found" });
       return;
     }
-    res.status(200).json({ message: "Profile deleted successfully" });
-  } catch (err) {
-    if (err instanceof Error) res.status(500).json({ message: err.message });
+
+    // Delete the user's profile
+    const userProfileDeletionResult = await UserProfile.findOneAndDelete({
+      userId,
+    });
+    if (!userProfileDeletionResult) {
+      res.status(404).json({ message: "User profile not found" });
+      return;
+    }
+
+    res.status(200).json({ message: "User and profile deleted successfully" });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    }
   }
 };
 
-export const getProfileByUserId = async (req: Request, res: Response): Promise<void> => {
+export const getProfileByUserId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { userId } = req.params;
 
   try {
@@ -120,7 +149,6 @@ export const getProfileByUserId = async (req: Request, res: Response): Promise<v
     }
     res.status(200).json({ profile });
   } catch (err) {
-    if (err instanceof Error)
-      res.status(500).json({ message: err.message });
+    if (err instanceof Error) res.status(500).json({ message: err.message });
   }
 };

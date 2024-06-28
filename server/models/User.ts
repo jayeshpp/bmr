@@ -12,6 +12,7 @@ const UserSchema: Schema = new mongoose.Schema(
       enum: ["Member", "Crew", "Admin"],
       default: "Member",
     },
+    profileId: { type: mongoose.Schema.Types.ObjectId, ref: "UserProfile" },
   },
   { timestamps: true }
 );
