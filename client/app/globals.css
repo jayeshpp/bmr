@@ -25,3 +25,7 @@ body {
 .navigation .slide-pane__content {
   padding: 0;
 }
+
+.form-row {
+  padding: 8px 0px;
+}

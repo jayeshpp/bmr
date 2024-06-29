@@ -2,31 +2,33 @@
 import withAuth from "@/hoc/withAuth";
 import Image from "next/image";
 import { ProfileCard } from "./ProfileCard";
-import userAPI from "@/api/user";
 import { useEffect, useState } from "react";
 
 import { IProfileResponse } from "@/interfaces/user.interface";
 import { ProfileInfo } from "./ProfileInfo";
+import API from "@/api";
 
 function Profile({ userId, fullName }: any) {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<IProfileResponse | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   const fetchProfileByUserId = async (userId: string) => {
     try {
       const response: IProfileResponse =
-        await userAPI.getProfileByUserId(userId);
+        await API.user.getProfileByUserId(userId);
 
       if (response) {
         setProfile(response);
       }
-    } catch (error) {
-      console.error("Failed", error);
-      throw error;
+    } catch (error:any) {
+      setErrorMessage(error.response.data.message);
     } finally {
       setLoading(false);
     }
   };
+console.log({userId});
 
   useEffect(() => {
     fetchProfileByUserId(userId);
@@ -49,7 +51,7 @@ function Profile({ userId, fullName }: any) {
       <div className="bg-white -mt-4 relative rounded-md p-4">
         <ProfileCard fullName={fullName} />
         <hr className="my-5" />
-        <ProfileInfo profile={profile} />
+        <ProfileInfo profile={profile} errorMessage={errorMessage} />
       </div>
     </section>
   );

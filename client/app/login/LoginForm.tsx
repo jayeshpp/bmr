@@ -2,7 +2,9 @@ import * as Yup from "yup";
 import { Button } from "@/components/ui/Button";
 import { TextBox } from "@/components/ui/TextBox";
 import { useAuth } from "@/context/AuthProvider";
-import { ErrorMessage, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
+import { Div } from "@/components/Div";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 const LoginSchema = Yup.object().shape({
   userName: Yup.string().email("Invalid email").required("Email is required"),
@@ -22,7 +24,7 @@ const initialValues: LoginFormValues = {
 };
 
 export const LoginForm = () => {
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
   const handleSubmit = (values: LoginFormValues) => {
     const { userName, password } = values;
     login(userName, password);
@@ -36,7 +38,7 @@ export const LoginForm = () => {
     >
       {({ isSubmitting, handleChange, values }) => (
         <Form>
-          <div>
+          <Div className="form-row">
             <TextBox
               inputProps={{
                 type: "text",
@@ -45,9 +47,9 @@ export const LoginForm = () => {
               }}
               label="Email ID"
             />
-            <ErrorMessage name="userName" component="div" />
-          </div>
-          <div>
+            <ErrorMessage name="userName" />
+          </Div>
+          <Div className="form-row">
             <TextBox
               inputProps={{
                 type: "password",
@@ -56,9 +58,8 @@ export const LoginForm = () => {
               }}
               label="Password"
             />
-            <ErrorMessage name="password" component="div" />
-          </div>
-          {isSubmitting ? "loading.." : ""}
+            <ErrorMessage name="password" />
+          </Div>
           <Button>Login</Button>
         </Form>
       )}

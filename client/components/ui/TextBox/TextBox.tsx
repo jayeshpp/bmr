@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 interface ITextBox {
   label?: string;
-  inputProps: object;
+  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 export const TextBox = React.forwardRef<HTMLInputElement, ITextBox>(
@@ -12,14 +12,19 @@ export const TextBox = React.forwardRef<HTMLInputElement, ITextBox>(
 
     const uid = uuidv4();
 
+    const mergedInputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+      type: "text",
+      ...inputProps,
+    };
+
     return (
       <div className="flex flex-col">
-        {label && <label htmlFor={uid}>{label}</label>}
+        {label && <label className="text-sm pb-1" htmlFor={uid}>{label}</label>}
         <input
-          className="border border-gray-200 p-3"
+          className="border border-gray-200 px-3 py-2"
           ref={ref}
           id={uid}
-          {...inputProps}
+          {...mergedInputProps}
         />
       </div>
     );

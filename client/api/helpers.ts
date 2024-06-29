@@ -36,11 +36,12 @@ export async function performRequest<T>(
 ): Promise<{ status: number; data: T }> {
   try {
     const response: any = await requestFunction(...args);
+    const { status, data } = response;
     return {
-      status: response.status,
-      data: response.data,
+      status,
+      data,
     };
   } catch (error: any) {
-    handleErrorResponse(error);
+    throw error;
   }
 }

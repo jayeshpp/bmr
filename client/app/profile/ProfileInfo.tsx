@@ -1,8 +1,9 @@
+import { Alert } from "@/components/Alert";
 import { ProfileItem } from "./ProfileItem";
 import { format } from "date-fns";
 
-export const ProfileInfo = ({ profile }: any) => {
-  if (!profile) return <div>update your profile</div>;
+export const ProfileInfo = ({ profile, errorMessage }: any) => {
+  if (!profile) return <Alert message={errorMessage} />;
 
   const {
     dob,

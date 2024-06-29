@@ -7,6 +7,7 @@ export interface UserPayload {
   userId: string;
   fullName: string;
   email: string;
+  isAuthenticated: boolean;
 }
 
 const withAuth = <P extends object>(
@@ -24,6 +25,7 @@ const withAuth = <P extends object>(
       userId: id,
       fullName: getFullName({ firstName, lastName }),
       email,
+      isAuthenticated
     };
 
     useEffect(() => {
@@ -32,7 +34,7 @@ const withAuth = <P extends object>(
       }
     }, [loading, isAuthenticated, router]);
 
-    if (loading || !isAuthenticated) {
+    if (loading) {
       return <div>Loading...</div>;
     }
 

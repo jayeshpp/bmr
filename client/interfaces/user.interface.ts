@@ -1,8 +1,7 @@
-export interface IProfileResponse {
-  _id: string;
+export interface IProfileProps {
   userId: string;
   profilePic: string;
-  dob: Date;
+  dob: string; // TODO: replace string Date after implementing datepicker component
   countryCode: string;
   contactNumber: number;
   emergencyNumber1: number;
@@ -32,6 +31,10 @@ export interface IProfileResponse {
   youtubeChannel: string;
   volunteerPreference: "Yes" | "No";
   agreeToRules: boolean;
+}
+
+export interface IProfileResponse extends IProfileProps {
+  _id: string;
   createdAt: Date;
   updatedAt: Date;
   __v: number;

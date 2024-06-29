@@ -1,11 +1,13 @@
 import * as Yup from "yup";
 import { Button } from "@/components/ui/Button";
 import { TextBox } from "@/components/ui/TextBox";
-import { ErrorMessage, Form, Formik } from "formik";
-import userAPI from "@/api/user";
+import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Typography } from "@/components/ui/Typography";
+import { Div } from "@/components/Div";
+import { ErrorMessage } from "@/components/ErrorMessage";
+import API from "@/api";
 
 const RegisterationSchema = Yup.object().shape({
   firstName: Yup.string().required("First Name is required"),
@@ -35,13 +37,10 @@ export const RegisterationForm = () => {
 
   const handleSubmit = async (values: RegisterationFormValues) => {
     try {
-      await userAPI.register(values);
-      toast.success("Registration successful");
-      router.push("/");
-    } catch (error) {
-      if (error instanceof Error) toast.error(error.message);
-      console.error("Registration failed", error);
-      throw error;
+      await API.user.register(values);
+      toast.success("Registration successful! A crew member will reach out to you.");
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || 'Something went wrong!');
     }
   };
 
@@ -50,7 +49,7 @@ export const RegisterationForm = () => {
       <Typography component="h1" variant="bold">
         Member Registration
       </Typography>
-      <Typography component="p" variant="italic">
+      <Typography component="p">
         Please complete the form below to join our club. After you register, one
         of our admin team members will contact you.
       </Typography>
@@ -61,7 +60,7 @@ export const RegisterationForm = () => {
       >
         {({ isSubmitting, handleChange, values }) => (
           <Form>
-            <div>
+            <Div className="form-row">
               <TextBox
                 inputProps={{
                   type: "text",
@@ -70,9 +69,9 @@ export const RegisterationForm = () => {
                 }}
                 label="First Name"
               />
-              <ErrorMessage name="firstName" component="div" />
-            </div>
-            <div>
+              <ErrorMessage name="firstName" />
+            </Div>
+            <Div className="form-row">
               <TextBox
                 inputProps={{
                   type: "text",
@@ -81,9 +80,9 @@ export const RegisterationForm = () => {
                 }}
                 label="Last Name"
               />
-              <ErrorMessage name="lastName" component="div" />
-            </div>
-            <div>
+              <ErrorMessage name="lastName" />
+            </Div>
+            <Div className="form-row">
               <TextBox
                 inputProps={{
                   type: "text",
@@ -92,9 +91,9 @@ export const RegisterationForm = () => {
                 }}
                 label="Email"
               />
-              <ErrorMessage name="email" component="div" />
-            </div>
-            <div>
+              <ErrorMessage name="email" />
+            </Div>
+            <Div className="form-row">
               <TextBox
                 inputProps={{
                   type: "password",
@@ -103,10 +102,9 @@ export const RegisterationForm = () => {
                 }}
                 label="Password"
               />
-              <ErrorMessage name="password" component="div" />
-            </div>
-            {isSubmitting ? "loading.." : ""}
-            <Button>Registeration</Button>
+              <ErrorMessage name="password" />
+            </Div>
+            <Button loading={isSubmitting}>Registeration</Button>
           </Form>
         )}
       </Formik>

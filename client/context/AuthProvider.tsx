@@ -6,8 +6,9 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import authAPI from "@/api/auth";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import API from "@/api";
 
 interface AuthContextProps {
   user: any;
@@ -30,13 +31,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string) => {
     try {
       setLoading(true);
-      await authAPI.logIn({ email, password });
-      const sessionData = await authAPI.checkSession();
+      const response = await toast.promise(
+        API.auth.logIn({ email, password }),
+        {
+          pending: 'Promise is pending',
+          success: 'Promise resolved 👌',
+          error: 'Promise rejected 🤯'
+        }
+    );
+      const sessionData = await API.auth.checkSession();
       if (sessionData?.data) setUser(sessionData.data);
-      router.push("/profile");
-    } catch (error) {
-      console.error("Login failed", error);
-      throw error;
+      router.push("/profile"); // TODO: if profile is complete, redirect to profile or add profile page
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -45,7 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     try {
       setLoading(true);
-      await authAPI.logOut();
+      await API.auth.logOut();
       setUser(defaultUser);
       router.push("/");
     } catch (error) {
@@ -59,7 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const sessionData = await authAPI.checkSession();
+        const sessionData = await API.auth.checkSession();
         if (sessionData?.data) setUser(sessionData.data);
 
         /* if(!sessionData?.data?.valid) {
