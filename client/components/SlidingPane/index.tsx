@@ -1,1 +1,1 @@
-export { SlidingPane } from './SlidingPane';
+export { SlidingPane } from "./SlidingPane";

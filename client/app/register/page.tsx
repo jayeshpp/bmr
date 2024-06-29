@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { RegisterationForm } from './RegisterationForm';
+import { RegisterationForm } from "./RegisterationForm";
 
 export default function Registeration() {
   return (

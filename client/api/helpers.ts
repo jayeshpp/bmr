@@ -15,18 +15,18 @@ export function handleErrorResponse(error: any): never {
   if (error.response) {
     // Server responded with an error status (4xx or 5xx)
     if (error.response.status === 404) {
-      throw new CustomError('Resource not found');
+      throw new CustomError("Resource not found");
     } else if (error.response.status === 403) {
-      throw new CustomError('Unauthorized');
+      throw new CustomError("Unauthorized");
     } else {
-      throw new CustomError('An error occurred on the server');
+      throw new CustomError("An error occurred on the server");
     }
   } else if (error.request) {
     // Request was made but no response was received
-    throw new CustomError('No response received from the server');
+    throw new CustomError("No response received from the server");
   } else {
     // Something else happened while setting up the request
-    throw new CustomError('An error occurred while making the request');
+    throw new CustomError("An error occurred while making the request");
   }
 }
 

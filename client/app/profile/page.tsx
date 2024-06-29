@@ -1,12 +1,12 @@
-'use client';
-import withAuth from '@/hoc/withAuth';
-import Image from 'next/image';
-import { ProfileCard } from './ProfileCard';
-import userAPI from '@/api/user';
-import { useEffect, useState } from 'react';
+"use client";
+import withAuth from "@/hoc/withAuth";
+import Image from "next/image";
+import { ProfileCard } from "./ProfileCard";
+import userAPI from "@/api/user";
+import { useEffect, useState } from "react";
 
-import { IProfileResponse } from '@/interfaces/user.interface';
-import { ProfileInfo } from './ProfileInfo';
+import { IProfileResponse } from "@/interfaces/user.interface";
+import { ProfileInfo } from "./ProfileInfo";
 
 function Profile({ userId, fullName }: any) {
   const [loading, setLoading] = useState(true);
@@ -21,7 +21,7 @@ function Profile({ userId, fullName }: any) {
         setProfile(response);
       }
     } catch (error) {
-      console.error('Failed', error);
+      console.error("Failed", error);
       throw error;
     } finally {
       setLoading(false);
@@ -36,19 +36,19 @@ function Profile({ userId, fullName }: any) {
 
   return (
     <section>
-      <div className='bg-gray-100 h-[200px] -m-5'>
+      <div className="bg-gray-100 h-[200px] -m-5">
         <Image
           src={`/assets/images/profile-cover.jpg`}
           width={500}
           height={300}
           priority
-          alt={'profile cover'}
-          className='object-cover h-[200px]'
+          alt={"profile cover"}
+          className="object-cover h-[200px]"
         />
       </div>
-      <div className='bg-white -mt-4 relative rounded-md p-4'>
+      <div className="bg-white -mt-4 relative rounded-md p-4">
         <ProfileCard fullName={fullName} />
-        <hr className='my-5' />
+        <hr className="my-5" />
         <ProfileInfo profile={profile} />
       </div>
     </section>

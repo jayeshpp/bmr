@@ -1,9 +1,9 @@
-import { PageHead } from '@/components/ui/PageHead';
+import { PageHead } from "@/components/ui/PageHead";
 
 export default function Contact() {
   return (
     <>
-      <PageHead title='Contact' />
+      <PageHead title="Contact" />
       <p>contact</p>
     </>
   );

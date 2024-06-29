@@ -5,12 +5,12 @@ import React, {
   useEffect,
   useMemo,
   useState,
-} from 'react';
+} from "react";
 
 interface ITabProps {
   onChange?: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number
+    index: number,
   ) => void;
   activeTab?: number;
   children: ReactElement[];
@@ -29,14 +29,14 @@ export const Tab = ({ onChange, activeTab = 0, children }: ITabProps) => {
 
   const elements = useMemo(
     () => Children.toArray(children).filter((el) => React.isValidElement(el)),
-    [children]
+    [children],
   ) as ReactElement[];
 
-  const Content = cloneElement(elements[activeIndex], { title: '' });
+  const Content = cloneElement(elements[activeIndex], { title: "" });
 
   const handleTabChange = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number
+    index: number,
   ) => {
     setActiveIndex(index);
     onChange?.(event, index);
@@ -50,7 +50,7 @@ export const Tab = ({ onChange, activeTab = 0, children }: ITabProps) => {
 
   useEffect(() => {
     const tabs = elements.map((ele, i) => {
-      if (ele.props.active && typeof ele.props.active === 'boolean') {
+      if (ele.props.active && typeof ele.props.active === "boolean") {
         setActiveIndex(i);
       }
       return {
@@ -64,26 +64,26 @@ export const Tab = ({ onChange, activeTab = 0, children }: ITabProps) => {
 
   return (
     <>
-      <div className='flex gap-4 border-b border-gray-200'>
+      <div className="flex gap-4 border-b border-gray-200">
         {tabs.length > 0 &&
           tabs.map((tab, i) => (
             <div
               key={tab.id}
-              className='cursor-pointer px-4 py-2 relative text-gray-800 hover:bg-slate-50'
+              className="cursor-pointer px-4 py-2 relative text-gray-800 hover:bg-slate-50"
               onClick={(event) => !tab.disabled && handleTabChange(event, i)}
             >
               {activeIndex === i && (
-                <span className='absolute bottom-0 block h-[2px] bg-slate-700 w-full left-0' />
+                <span className="absolute bottom-0 block h-[2px] bg-slate-700 w-full left-0" />
               )}
               {tab.title}
             </div>
           ))}
       </div>
-      <div className='h-full'>{Content}</div>
+      <div className="h-full">{Content}</div>
     </>
   );
 };
 
 export const TabItem = ({ children }: ITabItem) => {
-  return <div className='h-full'>{children}</div>;
+  return <div className="h-full">{children}</div>;
 };

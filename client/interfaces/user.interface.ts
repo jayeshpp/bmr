@@ -30,7 +30,7 @@ export interface IProfileResponse {
   ridingGears: string[];
   ridingGroupMember: boolean;
   youtubeChannel: string;
-  volunteerPreference: 'Yes' | 'No';
+  volunteerPreference: "Yes" | "No";
   agreeToRules: boolean;
   createdAt: Date;
   updatedAt: Date;

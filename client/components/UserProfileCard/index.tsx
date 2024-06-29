@@ -1,1 +1,1 @@
-export { UserProfileCard } from './UserProfileCard';
+export { UserProfileCard } from "./UserProfileCard";

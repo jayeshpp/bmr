@@ -1,14 +1,14 @@
-import * as Yup from 'yup';
-import { Button } from '@/components/ui/Button';
-import { TextBox } from '@/components/ui/TextBox';
-import { useAuth } from '@/context/AuthProvider';
-import { ErrorMessage, Form, Formik } from 'formik';
+import * as Yup from "yup";
+import { Button } from "@/components/ui/Button";
+import { TextBox } from "@/components/ui/TextBox";
+import { useAuth } from "@/context/AuthProvider";
+import { ErrorMessage, Form, Formik } from "formik";
 
 const LoginSchema = Yup.object().shape({
-  userName: Yup.string().email('Invalid email').required('Email is required'),
+  userName: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
-    .min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
 });
 
 interface LoginFormValues {
@@ -17,8 +17,8 @@ interface LoginFormValues {
 }
 
 const initialValues: LoginFormValues = {
-  userName: '',
-  password: '',
+  userName: "",
+  password: "",
 };
 
 export const LoginForm = () => {
@@ -39,26 +39,26 @@ export const LoginForm = () => {
           <div>
             <TextBox
               inputProps={{
-                type: 'text',
-                onChange: handleChange('userName'),
+                type: "text",
+                onChange: handleChange("userName"),
                 value: values.userName,
               }}
-              label='Email ID'
+              label="Email ID"
             />
-            <ErrorMessage name='userName' component='div' />
+            <ErrorMessage name="userName" component="div" />
           </div>
           <div>
             <TextBox
               inputProps={{
-                type: 'password',
-                onChange: handleChange('password'),
+                type: "password",
+                onChange: handleChange("password"),
                 value: values.password,
               }}
-              label='Password'
+              label="Password"
             />
-            <ErrorMessage name='password' component='div' />
+            <ErrorMessage name="password" component="div" />
           </div>
-          {isSubmitting ? 'loading..' : ''}
+          {isSubmitting ? "loading.." : ""}
           <Button>Login</Button>
         </Form>
       )}

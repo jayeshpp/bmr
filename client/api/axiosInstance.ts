@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { handleErrorResponse } from './helpers';
-import { BASE_URL } from '@/constants/app';
+import axios from "axios";
+import { handleErrorResponse } from "./helpers";
+import { BASE_URL } from "@/constants/app";
 
 // Create a new Axios instance
 const instance = axios.create({
@@ -15,7 +15,7 @@ instance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 instance.interceptors.response.use(
@@ -26,7 +26,7 @@ instance.interceptors.response.use(
     // Handle errors globally eg: unauthorized
     handleErrorResponse(error);
     return Promise.reject(error);
-  }
+  },
 );
 
 export default instance;

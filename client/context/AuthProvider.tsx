@@ -1,13 +1,13 @@
-'use client';
+"use client";
 import React, {
   createContext,
   useContext,
   useState,
   useEffect,
   ReactNode,
-} from 'react';
-import authAPI from '@/api/auth';
-import { useRouter } from 'next/navigation';
+} from "react";
+import authAPI from "@/api/auth";
+import { useRouter } from "next/navigation";
 
 interface AuthContextProps {
   user: any;
@@ -33,9 +33,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await authAPI.logIn({ email, password });
       const sessionData = await authAPI.checkSession();
       if (sessionData?.data) setUser(sessionData.data);
-      router.push('/profile');
+      router.push("/profile");
     } catch (error) {
-      console.error('Login failed', error);
+      console.error("Login failed", error);
       throw error;
     } finally {
       setLoading(false);
@@ -47,9 +47,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(true);
       await authAPI.logOut();
       setUser(defaultUser);
-      router.push('/');
+      router.push("/");
     } catch (error) {
-      console.error('Logout failed', error);
+      console.error("Logout failed", error);
       throw error;
     } finally {
       setLoading(false);
@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

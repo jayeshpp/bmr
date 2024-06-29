@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent, useCallback } from "react";
 
 interface ICheckbox {
   value: string;
@@ -11,10 +11,10 @@ export const Checkbox = React.forwardRef<HTMLInputElement, ICheckbox>(
   (props, ref) => {
     const { onChange, value, label, id } = props;
     return (
-      <div className='flex gap-2'>
+      <div className="flex gap-2">
         <input
-          type='checkbox'
-          className='border border-gray-200 w-5'
+          type="checkbox"
+          className="border border-gray-200 w-5"
           ref={ref}
           onChange={onChange}
           value={value}
@@ -23,7 +23,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, ICheckbox>(
         {label && <label htmlFor={id}>{label}</label>}
       </div>
     );
-  }
+  },
 );
 
-Checkbox.displayName = 'Checkbox';
+Checkbox.displayName = "Checkbox";
