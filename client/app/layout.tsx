@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <Layout>
-            <main className="p-5">
+            <main>
               <div className="container m-auto">
                 <div className="max-w-[800px] m-auto">{children}</div>
               </div>

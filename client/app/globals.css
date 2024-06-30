@@ -29,3 +29,11 @@ body {
 .form-row {
   padding: 8px 0px;
 }
+
+.page-main {
+  @apply m-4 p-5 bg-white dark:bg-secondary-light rounded-md
+}
+
+.std-margin {
+  @apply m-4
+}

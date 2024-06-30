@@ -23,11 +23,11 @@ export const Typography: FC<TypographyProps> = ({
 
   const colorClass = `text-${color}-${shade} dark:text-gray-200 font-normal	`;
   const variantClass = {
-    h1: "text-3xl font-semibold",
+    h1: "text-3xl",
     h2: "text-2xl",
     h3: "text-xl",
     h4: "text-lg",
-    body: "text-sm",
+    body: "text-md mb-2",
     bodySmall: "text-xs",
     caption: "text-xs uppercase",
   }[variant];

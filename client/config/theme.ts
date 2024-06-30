@@ -1,15 +1,17 @@
 const colors = {
   primary: {
-    light: "#009688",
-    dark: "#004d40",
+    light: "#FFE244",
+    main: "#FECB03",
+    dark: "#EEB404",
   },
   secondary: {
-    light: "#9c27b0",
-    dark: "#4a148c",
+    light: "#3D3D3D",
+    main: "#2F2F2F",
+    dark: "#222222",
   },
   background: {
-    light: "#ffffff",
-    dark: "#121212",
+    light: "#f1f1f1",
+    dark: "#222222",
   },
   text: {
     light: "#000000",

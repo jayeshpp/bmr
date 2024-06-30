@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthProvider";
 import { getFullName } from "@/lib/utils";
+import { PageLoading } from "@/components/PageLoading";
 
 export interface UserPayload {
   userId: string;
@@ -27,13 +28,13 @@ const withAuth = <P extends object>(
       email,
       isAuthenticated,
     };
-    
+
     if (!loading && !isAuthenticated) {
       router.push("/login");
     }
 
     if (loading) {
-      return <div>Loading...</div>;
+      return <PageLoading />;
     }
 
     return <WrappedComponent {...userPayload} {...props} />;

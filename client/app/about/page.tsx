@@ -1,9 +1,10 @@
+import { Div } from "@/components/Div";
 import { PageHead } from "@/components/ui/PageHead";
 import { Typography } from "@/components/ui/Typography";
 
 export default function About() {
   return (
-    <>
+    <Div className="page-main">
       <PageHead title="About" />
       <Typography>
         BMRiders is a riding group of Malayalees in Bengaluru .We promote safe
@@ -36,6 +37,6 @@ export default function About() {
         in Bangalore and has provided them with a platform to connect and ride
         together.
       </Typography>
-    </>
+    </Div>
   );
 }

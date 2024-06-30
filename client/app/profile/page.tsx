@@ -1,22 +1,20 @@
 "use client";
 import withAuth from "@/hoc/withAuth";
 import Image from "next/image";
-import { ProfileCard } from "./ProfileCard";
 import { useEffect, useState } from "react";
 
 import { IProfileResponse } from "@/interfaces/user.interface";
-import { ProfileInfo } from "./ProfileInfo";
 import API from "@/api";
 import { PersonalInfoView } from "./components/PersonalInfoView";
 import { ProfileView } from "./ProfileView";
 import { SocialMediaView } from "./components/SocialMediaView";
 import { Div } from "@/components/Div";
+import { toast } from "react-toastify";
+import { PageLoading } from "@/components/PageLoading";
 
 function Profile({ userId, fullName }: any) {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<IProfileResponse | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [error, setError] = useState<boolean>(false);
 
   const fetchProfileByUserId = async (userId: string) => {
     try {
@@ -27,7 +25,7 @@ function Profile({ userId, fullName }: any) {
         setProfile(response);
       }
     } catch (error: any) {
-      setErrorMessage(error.response.data.message);
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -37,28 +35,35 @@ function Profile({ userId, fullName }: any) {
     fetchProfileByUserId(userId);
   }, [userId]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <PageLoading />;
 
   return (
-    <section>
-      <div className="bg-gray-100 h-[200px] -m-5">
+    <section className="pt-[200px]">
+      <div className="h-[200px] w-screen absolute left-0 top-[50px] bg-secondary-light">
         <Image
           src={`/assets/images/profile-cover.jpg`}
           width={500}
           height={300}
           priority
           alt={"profile cover"}
-          className="object-cover h-[200px]"
+          className="object-cover h-[200px] m-auto w-full"
         />
       </div>
-      <div className="bg-white -mt-4 relative rounded-md p-4">
-        <PersonalInfoView personalInfo={profile?.personalInfo} fullName={fullName}/>
-        <SocialMediaView {...profile?.socialMedia} />
-        <Div className="h-20 flex items-center justify-center">
-          <hr className="w-10"/>
+      <Div className="px-4">
+        <Div className="bg-white dark:bg-secondary-light -mt-8 relative rounded-md p-4 pt-8">
+          <PersonalInfoView
+            personalInfo={profile?.personalInfo}
+            fullName={fullName}
+          />
+          <SocialMediaView {...profile?.socialMedia} />
+          <Div className="h-20 flex items-center justify-center">
+            <hr className="w-10" />
+          </Div>
+          <Div className="px-4">
+            <ProfileView profile={profile} />
+          </Div>
         </Div>
-        <ProfileView profile={profile} />
-      </div>
+      </Div>
     </section>
   );
 }

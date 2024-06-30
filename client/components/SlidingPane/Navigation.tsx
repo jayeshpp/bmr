@@ -7,7 +7,7 @@ interface INavigation {
 
 export const Navigation = ({ isAuthenticated }: INavigation) => {
   return (
-    <div className="p-0">
+    <div className="p-4">
       {navigations.map(({ label, path, isPrivate }) => {
         if (isPrivate && !isAuthenticated) {
           return null;
