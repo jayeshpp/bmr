@@ -22,13 +22,12 @@ function Profile({ userId, fullName }: any) {
       if (response) {
         setProfile(response);
       }
-    } catch (error:any) {
+    } catch (error: any) {
       setErrorMessage(error.response.data.message);
     } finally {
       setLoading(false);
     }
   };
-console.log({userId});
 
   useEffect(() => {
     fetchProfileByUserId(userId);

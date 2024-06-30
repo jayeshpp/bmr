@@ -25,7 +25,7 @@ const withAuth = <P extends object>(
       userId: id,
       fullName: getFullName({ firstName, lastName }),
       email,
-      isAuthenticated
+      isAuthenticated,
     };
 
     useEffect(() => {

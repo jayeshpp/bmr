@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 
 type TypographyProps = {
-  component: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
+  component?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
   color?: string;
   shade?: string;
   variant?: "normal" | "bold" | "italic";

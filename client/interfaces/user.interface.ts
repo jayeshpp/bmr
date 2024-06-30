@@ -1,39 +1,70 @@
 export interface IProfileProps {
-  userId: string;
-  profilePic: string;
-  dob: string; // TODO: replace string Date after implementing datepicker component
-  countryCode: string;
-  contactNumber: number;
-  emergencyNumber1: number;
-  emergencyNumber2: number;
-  whatsappNumber: number;
-  relationshipStatus: string;
-  bloodGroup: string;
-  readyToDonateBlood: boolean;
-  nativeInKerala: string;
-  area: string;
-  doorNumber: string;
-  apartmentNameOrBuildingNumber: string;
-  addressLine1: string;
-  addressLine2: string;
-  pinCode: number;
-  nearestLandmark: string;
-  organization: string;
-  occupation: string;
-  drivingLicenseNumber: string;
-  drivingLicenseValidity: Date;
-  motorcycleMake: string;
-  motorcycleModel: string;
-  motorcycleRegistrationNumber: string;
-  rearViewMirrors: boolean;
-  ridingGears: string[];
+  personalInfo: {
+    dob: string;
+    profilePic: string;
+    occupation: string;
+    nickName: string;
+  };
+  contactInfo: {
+    countryCode: string;
+    mobileNumber: string;
+    whatsappNumber: string;
+    homeAddress: string;
+    officeAddress: string;
+  };
+  socialMedia: {
+    instagramId: string;
+    facebookId: string;
+    youtubeLink: string;
+  };
+  vehicleInfo: {
+    make: string;
+    model: string;
+    registrationNumber: string;
+  }[];
+  longestRideExperience: string;
   ridingGroupMember: boolean;
-  youtubeChannel: string;
-  volunteerPreference: "Yes" | "No";
+  DLInfo: {
+    DLNumber: string;
+    DLIssuedAt: string;
+    DLValidUpTo: string;
+    DLFile: string;
+  };
+  emergencyContactInfo: {
+    emergencyContactNameInFamily: string;
+    emergencyContactNumberInFamily: string;
+    emergencyContactRelationship: string;
+    emergencyContactNameInBangalore: string;
+    emergencyContactNumberInBangalore: string;
+    emergencyContactNameInBMR: string;
+    location: string;
+  };
+  medicalInfo: {
+    bloodGroup: string;
+    alergies: string;
+    preExistingMedicalCondition: string;
+    climateSensitivities: string;
+    medicationRequirements: string;
+  };
+  insuranceInfo: {
+    company: string;
+    number: string;
+    validity: string;
+  };
+  otherInfo: {
+    nativeInKerala: string;
+    area: string;
+    volunteerPreference: string;
+    specialNote: string;
+  };
+  ack1: boolean;
+  ack2: boolean;
+  ack3: boolean;
   agreeToRules: boolean;
 }
 
 export interface IProfileResponse extends IProfileProps {
+  userId: string;
   _id: string;
   createdAt: Date;
   updatedAt: Date;

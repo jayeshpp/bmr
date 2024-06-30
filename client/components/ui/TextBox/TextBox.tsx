@@ -1,5 +1,6 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
+import { Label } from "../Label";
 
 interface ITextBox {
   label?: string;
@@ -19,7 +20,7 @@ export const TextBox = React.forwardRef<HTMLInputElement, ITextBox>(
 
     return (
       <div className="flex flex-col">
-        {label && <label className="text-sm pb-1" htmlFor={uid}>{label}</label>}
+        {label && <Label htmlFor={uid}>{label}</Label>}
         <input
           className="border border-gray-200 px-3 py-2"
           ref={ref}

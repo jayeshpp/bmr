@@ -1,4 +1,4 @@
-import { Alert } from "@/components/Alert";
+import { Alert } from "@/components/ui/Alert";
 import { ProfileItem } from "./ProfileItem";
 import { format } from "date-fns";
 
@@ -6,51 +6,66 @@ export const ProfileInfo = ({ profile, errorMessage }: any) => {
   if (!profile) return <Alert message={errorMessage} />;
 
   const {
-    dob,
-    contactNumber,
-    emergencyNumber1,
-    emergencyNumber2,
-    whatsappNumber,
-    relationshipStatus,
-    bloodGroup,
-    readyToDonateBlood,
-    nativeInKerala,
-    area,
-    doorNumber,
-    apartmentNameOrBuildingNumber,
-    addressLine1,
-    addressLine2,
-    pinCode,
-    nearestLandmark,
-    organization,
-    occupation,
-    drivingLicenseNumber,
-    drivingLicenseValidity,
-    motorcycleMake,
-    motorcycleModel,
-    motorcycleRegistrationNumber,
-    rearViewMirrors,
-    ridingGears,
+    personalInfo: { dob, profilePic, occupation, nickName },
+    contactInfo: {
+      countryCode,
+      mobileNumber,
+      whatsappNumber,
+      instagramId,
+      facebookId,
+      homeAddress,
+      officeAddress,
+    },
+    vehicleInfo: [{ make, model, registrationNumber }],
+    longestRideExperience,
     ridingGroupMember,
-    youtubeChannel,
-    volunteerPreference,
+    DLInfo: { DLNumber, DLIssuedAt, DLValidUpTo, DLFile },
+    emergencyContactInfo: {
+      emergencyContactNameInFamily,
+      emergencyContactNumberInFamily,
+      emergencyContactRelationship,
+      emergencyContactNameInBangalore,
+      emergencyContactNumberInBangalore,
+      emergencyContactNameInBMR,
+      location,
+    },
+    medicalInfo: {
+      bloodGroup,
+      alergies,
+      preExistingMedicalCondition,
+      climateSensitivities,
+      medicationRequirements,
+    },
+    insuraceInfo: { company, number, validity },
+    otherInfo: {
+      nativeInKerala,
+      area,
+      youtubeLink,
+      volunteerPreference,
+      specialNote,
+    },
+    ack1,
+    ack2,
+    ack3,
+    agreeToRules,
   } = profile;
 
   const birthDay = format(dob, "yyyy-MM-dd");
-  const DLValidity = format(drivingLicenseValidity, "yyyy-MM-dd");
+  const DLValidity = format(DLValidUpTo, "yyyy-MM-dd");
   return (
     <>
-      <h2 className="text-xl font-semibold pt-5 pb-2">Personal Information</h2>
-      <ProfileItem title="Date of Birth" value={birthDay} />
-      <ProfileItem title="Contact number" value={contactNumber} />
-      <ProfileItem title="Emergency number 1" value={emergencyNumber1} />
-      <ProfileItem title="Emergency number 2" value={emergencyNumber2} />
+      <h2 className="text-xl font-semibold pt-5 pb-2">Contact Information</h2>
+      {/* <ProfileItem title="Date of Birth" value={birthDay} />
+      <ProfileItem title="Contact number" value={mobileNumber} /> */}
+
+      <ProfileItem title="Emergency number 1" value={mobileNumber} />
       <ProfileItem title="Whatsapp Number" value={whatsappNumber} />
-      <ProfileItem title="Relationship Status" value={relationshipStatus} />
+      <ProfileItem title="Instagram" value={instagramId} />
+      <ProfileItem title="Facebook" value={facebookId} />
       <ProfileItem title="Blood Group" value={bloodGroup} />
       <ProfileItem title="Native in Kerala" value={nativeInKerala} />
       <ProfileItem title="Area" value={area} />
-      <ProfileItem
+      {/* <ProfileItem
         title="Address"
         value={[
           doorNumber,
@@ -88,7 +103,7 @@ export const ProfileInfo = ({ profile, errorMessage }: any) => {
         title="Other riding group memebr"
         value={ridingGroupMember ? "Yes" : "No"}
       />
-      <ProfileItem title="Youtube Channel" value={youtubeChannel} />
+      <ProfileItem title="Youtube Channel" value={youtubeChannel} /> */}
       <ProfileItem
         title="Valunteering preference"
         value={volunteerPreference}

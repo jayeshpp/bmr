@@ -32,7 +32,9 @@ export default function RootLayout({
         <AuthProvider>
           <Layout>
             <main className="p-5">
-              <div className="container m-auto">{children}</div>
+              <div className="container m-auto">
+                <div className="max-w-[800px] m-auto">{children}</div>
+              </div>
             </main>
           </Layout>
         </AuthProvider>

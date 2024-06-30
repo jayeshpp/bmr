@@ -38,9 +38,11 @@ export const RegisterationForm = () => {
   const handleSubmit = async (values: RegisterationFormValues) => {
     try {
       await API.user.register(values);
-      toast.success("Registration successful! A crew member will reach out to you.");
+      toast.success(
+        "Registration successful! A crew member will reach out to you.",
+      );
     } catch (error: any) {
-      toast.error(error?.response?.data?.message || 'Something went wrong!');
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     }
   };
 

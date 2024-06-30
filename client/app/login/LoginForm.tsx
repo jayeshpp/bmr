@@ -36,7 +36,7 @@ export const LoginForm = () => {
       validationSchema={LoginSchema}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, handleChange, values }) => (
+      {({ handleChange, values }) => (
         <Form>
           <Div className="form-row">
             <TextBox

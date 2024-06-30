@@ -1,15 +1,12 @@
-import React, { ChangeEvent, useCallback } from "react";
+import React, { InputHTMLAttributes } from "react";
 
-interface ICheckbox {
-  value: string;
+interface ICheckbox extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  id: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Checkbox = React.forwardRef<HTMLInputElement, ICheckbox>(
   (props, ref) => {
-    const { onChange, value, label, id } = props;
+    const { onChange, value, label, id, ...rest } = props;
     return (
       <div className="flex gap-2">
         <input
@@ -19,6 +16,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, ICheckbox>(
           onChange={onChange}
           value={value}
           id={id}
+          {...rest}
         />
         {label && <label htmlFor={id}>{label}</label>}
       </div>

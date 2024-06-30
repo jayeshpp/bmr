@@ -25,8 +25,10 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    // Create new user
     const newUser = new User({
       firstName,
       lastName,
@@ -35,6 +37,11 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     });
     await newUser.save();
 
+    // Create empty profile
+    /* const newProfile = new UserProfile({ userId: newUser._id });
+    await newProfile.save(); */
+
+    // Generate JWT token
     const token = jwt.sign(
       { id: newUser._id },
       process.env.JWT_SECRET as string,

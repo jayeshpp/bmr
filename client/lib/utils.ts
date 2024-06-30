@@ -8,6 +8,8 @@ export const getFullName = ({
   return [firstName, lastName].join(" ");
 };
 
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 /* export const debounce = <T extends (...args: any[]) => void>(
   fn: T,
   delay = 300,

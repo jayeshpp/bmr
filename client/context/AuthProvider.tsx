@@ -34,11 +34,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const response = await toast.promise(
         API.auth.logIn({ email, password }),
         {
-          pending: 'Promise is pending',
-          success: 'Promise resolved 👌',
-          error: 'Promise rejected 🤯'
-        }
-    );
+          pending: "Promise is pending",
+          success: "Promise resolved 👌",
+          error: "Promise rejected 🤯",
+        },
+      );
       const sessionData = await API.auth.checkSession();
       if (sessionData?.data) setUser(sessionData.data);
       router.push("/profile"); // TODO: if profile is complete, redirect to profile or add profile page

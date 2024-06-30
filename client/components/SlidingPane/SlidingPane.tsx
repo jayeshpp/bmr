@@ -25,6 +25,7 @@ export const SlidingPane = ({ isOpen, onClose }: ISlidingPane) => {
       isOpen={isOpen}
       onRequestClose={onClose}
       from="left"
+      width={"350px"}
       hideHeader
     >
       <div className="flex flex-col justify-between h-full">

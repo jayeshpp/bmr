@@ -1,116 +1,339 @@
 import * as Yup from "yup";
 import { Button } from "@/components/ui/Button";
-import { TextBox } from "@/components/ui/TextBox";
 import { Form, Formik } from "formik";
 import { IProfileProps } from "@/interfaces/user.interface";
-import { ErrorMessage } from "@/components/ErrorMessage";
 import { Div } from "@/components/Div";
+import { TimelineStepper, TimelineStepperItem } from "@/components/ui/Stepper";
+import { FC, useState } from "react";
+import { PersonalInfoForm } from "./components/PersonalInfoForm";
+import { ContactInfoForm } from "./components/ContactInfoForm";
+import { MedicalInfoForm } from "./components/MedicalInfoForm";
+import { DLInfoForm } from "./components/DLInfoForm";
+import { VehicleInfoForm } from "./components/VehicleInfoForm";
+import { RideExperienceInfoForm } from "./components/RideExperienceInfoForm";
+import { OtherInfoForm } from "./components/OtherInfoForm";
+import { SocialMediaInfoForm } from "./components/SocialMediaInfoForm";
+import { InsuranceInfoForm } from "./components/InsuranceInfoForm";
+import { AcknowledgmentInfoForm } from "./components/AcknowledgmentInfoForm";
 
-const profileSchema = Yup.object().shape({
-  dob: Yup.string().required("Date of birth is required"),
-  countryCode: Yup.string().required("Country code is required"),
-  contactNumber: Yup.string()
-    .matches(/^\d+$/, "Contact number must only contain digits")
-    .length(10, "Contact number must be exactly 10 digits")
-    .required("Contact number is required"),
-  emergencyNumber1: Yup.string()
-    .matches(/^\d+$/, "Emergency contact number must only contain digits")
-    .length(10, "Emergency contact must be exactly 10 digits")
-    .required("Emergency contact is required"),
-  emergencyNumber2: Yup.string()
-    .matches(/^\d+$/, "Emergency contact number must only contain digits")
-    .length(10, "Emergency contact must be exactly 10 digits")
-    .required("Emergency contact is required"),
-  whatsappNumber: Yup.number().required("WhatsApp number is required"),
-  relationshipStatus: Yup.string().required("Relationship status is required"),
-  bloodGroup: Yup.string().required("Blood group is required"),
-  readyToDonateBlood: Yup.boolean().required(
-    "Ready to donate blood is required",
+interface IProfileFormProps {
+  initialValues: IProfileProps;
+  onSubmit: (values: IProfileProps) => void;
+}
+
+interface IStepComponent {
+  id: number;
+  title: string;
+  subTitle: string;
+  component: FC<any>;
+}
+
+// Define validation schemas for each step
+const personalInfoSchema = Yup.object().shape({
+  personalInfo: Yup.object().shape({
+    dob: Yup.string().required("Date of birth is required"),
+    profilePic: Yup.string().url("Invalid URL format for profile picture"),
+    occupation: Yup.string().required("Occupation is required"),
+    nickName: Yup.string(),
+  }),
+});
+
+const contactInfoSchema = Yup.object().shape({
+  contactInfo: Yup.object().shape({
+    countryCode: Yup.string().required("Country code is required"),
+    mobileNumber: Yup.string()
+      .matches(/^\d+$/, "Mobile number must only contain digits")
+      .length(10, "Mobile number must be exactly 10 digits")
+      .required("Mobile number is required"),
+    whatsappNumber: Yup.string()
+      .matches(/^\d+$/, "WhatsApp number must only contain digits")
+      .length(10, "WhatsApp number must be exactly 10 digits")
+      .required("WhatsApp number is required"),
+    homeAddress: Yup.string().required("Home address is required"),
+    officeAddress: Yup.string().required("Office address is required"),
+  }),
+});
+
+const medicalAndInsuranceInfoSchema = Yup.object().shape({
+  medicalInfo: Yup.object().shape({
+    bloodGroup: Yup.string().required("Blood group is required"),
+    alergies: Yup.string().required("Allergies information is required"),
+    preExistingMedicalCondition: Yup.string().required(
+      "Pre-existing medical condition is required",
+    ),
+    climateSensitivities: Yup.string().required(
+      "Climate sensitivities information is required",
+    ),
+    medicationRequirements: Yup.string().required(
+      "Medication requirements information is required",
+    ),
+  }),
+});
+
+const otherInfoSchema = Yup.object().shape({
+  otherInfo: Yup.object().shape({
+    nativeInKerala: Yup.string().required(
+      "Native in Kerala information is required",
+    ),
+    area: Yup.string().required("Area is required"),
+    volunteerPreference: Yup.string()
+      .oneOf(["Yes", "No"], "Invalid volunteer preference")
+      .required("Volunteer preference is required"),
+    specialNote: Yup.string().optional(),
+  }),
+});
+
+const emergencyContactInfoSchema = Yup.object().shape({
+  emergencyContactInfo: Yup.object().shape({
+    emergencyContactNameInFamily: Yup.string().required(
+      "Emergency contact name in family is required",
+    ),
+    emergencyContactNumberInFamily: Yup.string()
+      .matches(/^\d+$/, "Emergency contact number must only contain digits")
+      .length(10, "Emergency contact number must be exactly 10 digits")
+      .required("Emergency contact number in family is required"),
+    emergencyContactRelationship: Yup.string().required(
+      "Emergency contact relationship is required",
+    ),
+    emergencyContactNameInBangalore: Yup.string().required(
+      "Emergency contact name in Bangalore is required",
+    ),
+    emergencyContactNumberInBangalore: Yup.string()
+      .matches(/^\d+$/, "Emergency contact number must only contain digits")
+      .length(10, "Emergency contact number must be exactly 10 digits")
+      .required("Emergency contact number in Bangalore is required"),
+    emergencyContactNameInBMR: Yup.string().required(
+      "Emergency contact name in BMR is required",
+    ),
+    location: Yup.string().required("Location is required"),
+  }),
+});
+
+const DLInfoSchema = Yup.object().shape({
+  DLInfo: Yup.object().shape({
+    DLNumber: Yup.string().required("Driving license number is required"),
+    DLIssuedAt: Yup.date().required("Driving license issue date is required"),
+    DLValidUpTo: Yup.date().required(
+      "Driving license validity date is required",
+    ),
+    DLFile: Yup.string()
+      .url("Invalid URL format for driving license file")
+      .required("Driving license file is required"),
+  }),
+});
+
+const vehicleInfoSchema = Yup.object().shape({
+  vehicleInfo: Yup.array()
+    .of(
+      Yup.object().shape({
+        make: Yup.string().required("Vehicle make is required"),
+        model: Yup.string().required("Vehicle model is required"),
+        registrationNumber: Yup.string().required(
+          "Vehicle registration number is required",
+        ),
+      }),
+    )
+    .min(1, "At least one vehicle information is required"),
+});
+
+const rideExperienceShema = Yup.object().shape({
+  longestRideExperience: Yup.string().required(
+    "Longest ride experience is required",
   ),
-  nativeInKerala: Yup.string().required("Native in Kerala is required"),
-  area: Yup.string().required("Area is required"),
-  doorNumber: Yup.string().required("Door number is required"),
-  apartmentNameOrBuildingNumber: Yup.string().required(
-    "Apartment name or building number is required",
-  ),
-  addressLine1: Yup.string().required("Address line 1 is required"),
-  addressLine2: Yup.string().required("Address line 2 is required"),
-  pinCode: Yup.number().required("PIN code is required"),
-  nearestLandmark: Yup.string().required("Nearest landmark is required"),
-  organization: Yup.string().required("Organization is required"),
-  occupation: Yup.string().required("Occupation is required"),
-  drivingLicenseNumber: Yup.string().required(
-    "Driving license number is required",
-  ),
-  drivingLicenseValidity: Yup.date().required(
-    "Driving license validity date is required",
-  ),
-  motorcycleMake: Yup.string().required("Motorcycle make is required"),
-  motorcycleModel: Yup.string().required("Motorcycle model is required"),
-  motorcycleRegistrationNumber: Yup.string().required(
-    "Motorcycle registration number is required",
-  ),
-  rearViewMirrors: Yup.boolean().required(
-    "Rear view mirrors information is required",
-  ),
-  ridingGears: Yup.array()
-    .of(Yup.string())
-    .required("At least one riding gear must be selected"),
   ridingGroupMember: Yup.boolean().required(
     "Riding group membership information is required",
   ),
-  youtubeChannel: Yup.string().optional(),
-  volunteerPreference: Yup.string()
-    .oneOf(["Yes", "No"], "Invalid volunteer preference")
-    .required("Volunteer preference is required"),
-  agreeToRules: Yup.boolean().required("Agreement to rules is required"),
 });
 
-export const ProfileForm = (
-  initialValues: any,
-  onSubmit: (values: IProfileProps) => void,
-) => {
-  const handleSubmit = (values: IProfileProps) => {
-    onSubmit(values);
+const socialMediaSchema = Yup.object().shape({
+  socialMedia: Yup.object().shape({
+    instagramId: Yup.string().required("Instagram ID is required"),
+    facebookId: Yup.string().required("Facebook ID is required"),
+    youtubeLink: Yup.string()
+      .url("Invalid URL format for YouTube link")
+      .required("YouTube link is required"),
+  }),
+});
+
+const insuranceSchema = Yup.object().shape({
+  insuranceInfo: Yup.object().shape({
+    company: Yup.string().required("Insurance company is required"),
+    number: Yup.string().required("Insurance number is required"),
+    validity: Yup.date().required("Insurance validity date is required"),
+  }),
+});
+
+const ackSchema = Yup.object().shape({
+  ack1: Yup.boolean().oneOf([true], "You must acknowledge to it to continue"),
+  ack2: Yup.boolean().oneOf([true], "You must acknowledge to it to continue"),
+  ack3: Yup.boolean().oneOf([true], "You must acknowledge to it to continue"),
+  agreeToRules: Yup.boolean().oneOf([true], "Agreement to rules is required"),
+});
+
+const stepComponents: IStepComponent[] = [
+  {
+    id: 1,
+    title: "Personal Information",
+    subTitle: "",
+    component: PersonalInfoForm,
+  },
+  {
+    id: 2,
+    title: "Contact Information",
+    subTitle: "",
+    component: ContactInfoForm,
+  },
+  {
+    id: 3,
+    title: "Social Media Information",
+    subTitle: "",
+    component: SocialMediaInfoForm,
+  },
+  {
+    id: 4,
+    title: "Vehicle Information",
+    subTitle: "",
+    component: VehicleInfoForm,
+  },
+  {
+    id: 5,
+    title: "DL Information",
+    subTitle: "",
+    component: DLInfoForm,
+  },
+  {
+    id: 6,
+    title: "Insurance Information",
+    subTitle: "",
+    component: InsuranceInfoForm,
+  },
+  {
+    id: 7,
+    title: "Medical Information",
+    subTitle: "",
+    component: MedicalInfoForm,
+  },
+  {
+    id: 8,
+    title: "Ride Experience",
+    subTitle: "",
+    component: RideExperienceInfoForm,
+  },
+  {
+    id: 9,
+    title: "Other Information",
+    subTitle: "",
+    component: OtherInfoForm,
+  },
+  {
+    id: 10,
+    title: "Acknowledgement",
+    subTitle: "",
+    component: AcknowledgmentInfoForm,
+  },
+];
+
+export const ProfileForm = ({ initialValues, onSubmit }: IProfileFormProps) => {
+  const [currentStep, setCurrentStep] = useState(10);
+
+  const validationSchema = () => {
+    switch (currentStep) {
+      case 1:
+        return personalInfoSchema;
+      case 2:
+        return contactInfoSchema;
+      case 3:
+        return socialMediaSchema;
+      case 4:
+        return vehicleInfoSchema;
+      case 5:
+        return DLInfoSchema;
+      case 6:
+        return insuranceSchema;
+      case 7:
+        return medicalAndInsuranceInfoSchema;
+      case 8:
+        return rideExperienceShema;
+      case 9:
+        return otherInfoSchema;
+      case 10:
+        return ackSchema;
+      default:
+        return personalInfoSchema;
+    }
+  };
+
+  const handleSaveAndContinue = () => {
+    setCurrentStep((cs) => cs + 1);
+  };
+
+  const handleSteps = async (value: string) => {
+    setCurrentStep((cs) => (value === "back" ? cs - 1 : cs + 1));
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={profileSchema}
-      onSubmit={handleSubmit}
-    >
-      {({ isSubmitting, handleChange, values }) => (
-        <Form>
-          <Div className="form-row">
-            <TextBox
-              inputProps={{
-                onChange: handleChange("dob"),
-                value: values.dob,
-              }}
-              label="Date of Birth"
-            />
-            <ErrorMessage name="dob" />
-          </Div>
-          <Div className="form-row">
-            <TextBox
-              inputProps={{
-                type: "contactNumber",
-                onChange: handleChange("contactNumber"),
-                value: values.contactNumber,
-                maxLength: 10,
-              }}
-              label="Contact Number"
-            />
-            <ErrorMessage name="contactNumber" />
-          </Div>
-          <Div className="form-row">
-            <Button type="submit" disabled={isSubmitting}>
-              Add Profile
-            </Button>
-          </Div>
-        </Form>
-      )}
-    </Formik>
+    <div className="px-4">
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={async (values, { validateForm }) => {
+          await validateForm().then(() => {
+            onSubmit(values);
+            setCurrentStep((cs) => cs + 1);
+          });
+        }}
+      >
+        {({
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          values,
+          errors,
+          touched,
+        }) => {
+          console.log({ values, errors, touched });
+
+          return (
+            <Form>
+              <TimelineStepper>
+                {stepComponents.map(
+                  ({ title, subTitle, component: Component, id }) => (
+                    <TimelineStepperItem
+                      key={title}
+                      title={title}
+                      details={subTitle}
+                      completed={currentStep > id}
+                    >
+                      {currentStep === id && (
+                        <Component
+                          values={values}
+                          handleChange={handleChange}
+                          handleBlur={handleBlur}
+                          handleSteps={handleSteps}
+                        />
+                      )}
+                    </TimelineStepperItem>
+                  ),
+                )}
+              </TimelineStepper>
+              {currentStep > stepComponents.length && (
+                <Div className="form-row flex gap-2 justify-end">
+                  <Button type="button" onClick={() => handleSteps("back")}>
+                    Back
+                  </Button>
+                  <Button
+                    type="button"
+                    disabled={isSubmitting}
+                    onClick={handleSaveAndContinue}
+                  >
+                    Save Profile
+                  </Button>
+                </Div>
+              )}
+            </Form>
+          );
+        }}
+      </Formik>
+    </div>
   );
 };

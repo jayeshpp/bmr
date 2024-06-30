@@ -11,14 +11,14 @@ interface ILogin {
 
 function Login({ isAuthenticated }: ILogin) {
   const router = useRouter();
-console.log(isAuthenticated);
+  console.log(isAuthenticated);
 
   useEffect(() => {
     if (isAuthenticated) {
       router.push("/");
     }
   }, []);
-  
+
   return (
     <section>
       <LoginForm />
@@ -26,4 +26,4 @@ console.log(isAuthenticated);
   );
 }
 
-export default withAuth(Login)
+export default withAuth(Login);

@@ -13,6 +13,8 @@ const UserSchema: Schema = new mongoose.Schema(
       enum: ["Member", "Crew", "Admin"],
       default: "Member",
     },
+    isOfficialMember: { type: Boolean, default: false },
+    isEmailVerified: { type: Boolean, default: false },
     profileId: { type: mongoose.Schema.Types.ObjectId, ref: "UserProfile" },
   },
   { timestamps: true }
