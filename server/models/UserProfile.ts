@@ -19,10 +19,13 @@ const UserProfileSchema: Schema = new mongoose.Schema(
       countryCode: { type: String, required: true },
       mobileNumber: { type: String, required: true },
       whatsappNumber: { type: String, default: '' },
-      instagramId: { type: String, default: '' },
-      facebookId: { type: String, default: '' },
       homeAddress: { type: String, required: true },
       officeAddress: { type: String, default: '' },
+    },
+    socialMedia: {
+      instagramId: { type: String, default: '' },
+      facebookId: { type: String, default: '' },
+      youtubeLink: { type: String, default: '' },
     },
     vehicleInfo: [vehicleInfoSchema],
     longestRideExperience: { type: String, default: '' },
@@ -57,7 +60,6 @@ const UserProfileSchema: Schema = new mongoose.Schema(
     otherInfo: {
       nativeInKerala: { type: String, default: '' },
       area: { type: String, default: '' },
-      youtubeLink: { type: String, default: '' },
       volunteerPreference: { type: String, default: '' },
       specialNote: { type: String, default: '' },
     },

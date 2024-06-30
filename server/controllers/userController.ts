@@ -87,9 +87,10 @@ export const updateProfile = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { error } = userProfileValidationSchema.validate(req.body);
   const { userId } = req.params;
-  const profileData = req.body;
+  const profileData = { ...req.body, userId };
+
+  const { error } = userProfileValidationSchema.validate(req.body);
   if (error) {
     res.status(400).json({ message: error.details[0].message });
     return;

@@ -7,6 +7,8 @@ import {
 
 const userAPI = {
   register: async (payload: any) => axioInstance.post("/users", payload),
+  updateProfile: async (userId: string, payload: any) =>
+    axioInstance.put(`/users/${userId}/profile`, payload),
   getProfileByUserId: async (id: string): Promise<IProfileResponse> => {
     const response = await performRequest<IUserProfileResponse>(
       axioInstance.get,

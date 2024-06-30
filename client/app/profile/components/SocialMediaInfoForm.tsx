@@ -9,6 +9,7 @@ interface ISocialMediaInfoFormProps {
   handleChange: any;
   handleBlur: any;
   handleSteps: (value: string) => void;
+  isSubmitting: boolean;
 }
 
 export const SocialMediaInfoForm = ({
@@ -16,6 +17,7 @@ export const SocialMediaInfoForm = ({
   handleChange,
   handleBlur,
   handleSteps,
+  isSubmitting
 }: ISocialMediaInfoFormProps) => {
   return (
     <>
@@ -56,7 +58,9 @@ export const SocialMediaInfoForm = ({
         <Button type="button" onClick={() => handleSteps("back")}>
           Back
         </Button>
-        <Button>Continue</Button>
+        <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
+          Continue
+        </Button>
       </Div>
     </>
   );

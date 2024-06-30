@@ -9,13 +9,14 @@ interface IPersonalInfoFormProps {
   handleChange: any;
   handleBlur: any;
   handleSteps: (value: string) => void;
+  isSubmitting: boolean
 }
 
 export const PersonalInfoForm = ({
   values,
   handleChange,
   handleBlur,
-  handleSteps,
+  isSubmitting,
 }: IPersonalInfoFormProps) => {
   return (
     <>
@@ -42,7 +43,7 @@ export const PersonalInfoForm = ({
         <ErrorMessage name="personalInfo.occupation" />
       </Div>
       <Div className="flex justify-end gap-2">
-        <Button>Continue</Button>
+        <Button disabled={isSubmitting} loading={isSubmitting}>Continue</Button>
       </Div>
     </>
   );

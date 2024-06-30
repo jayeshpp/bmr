@@ -2,7 +2,6 @@ import { Div } from "@/components/Div";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { Button } from "@/components/ui/Button";
 import { Checkbox } from "@/components/ui/Checkbox";
-import { TextBox } from "@/components/ui/TextBox";
 import { Typography } from "@/components/ui/Typography";
 import { IProfileProps } from "@/interfaces/user.interface";
 
@@ -11,12 +10,13 @@ interface IAcknowledgmentInfoFormProps {
   handleChange: any;
   handleBlur: any;
   handleSteps: (value: string) => void;
+  isSubmitting: boolean;
 }
 
 export const AcknowledgmentInfoForm = ({
   values,
   handleChange,
-  handleBlur,
+  isSubmitting,
   handleSteps,
 }: IAcknowledgmentInfoFormProps) => {
   return (
@@ -60,7 +60,7 @@ export const AcknowledgmentInfoForm = ({
           Any discrepancies in the details provided in the form may lead to
           cancel your membership anytime.
         </Typography>
-        <Typography variant="bold">
+        <Typography weight={600}>
           Your privacy is important to us, and we`ll only use this information
           for club-related purposes whenever it is required.
         </Typography>
@@ -77,7 +77,9 @@ export const AcknowledgmentInfoForm = ({
         <Button type="button" onClick={() => handleSteps("back")}>
           Back
         </Button>
-        <Button>Continue</Button>
+        <Button disabled={isSubmitting} loading={isSubmitting}>
+          Continue
+        </Button>
       </Div>
     </>
   );

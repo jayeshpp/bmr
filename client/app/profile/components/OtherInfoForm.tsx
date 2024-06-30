@@ -10,12 +10,14 @@ interface IOtherInfoFormProps {
   values: IProfileProps;
   handleChange: any;
   handleSteps: (value: string) => void;
+  isSubmitting: boolean
 }
 
 export const OtherInfoForm = ({
   values,
   handleChange,
   handleSteps,
+  isSubmitting
 }: IOtherInfoFormProps) => {
   return (
     <>
@@ -46,14 +48,14 @@ export const OtherInfoForm = ({
       <Div className="form-row">
         <RadioGroup
           name="otherInfo.volunteerPreference"
-          selectedValue={values.otherInfo.volunteerPreference ? "yes" : "no"}
+          selectedValue={values.otherInfo.volunteerPreference}
           groupLabel="Would you like to volunteer BMRiders in your free time?"
           onChange={handleChange("otherInfo.volunteerPreference")}
           orientation="horizontal"
         >
-          <Radio id="yes" value="yes" label="Yes" />
-          <Radio id="no" value="no" label="No" />
-          <Radio id="maybe" value="maybe" label="May be" />
+          <Radio id="yes" name="volPre" value="yes" label="Yes" />
+          <Radio id="no" name="volPre" value="no" label="No" />
+          <Radio id="maybe" name="volPre" value="maybe" label="May be" />
         </RadioGroup>
         <ErrorMessage name="otherInfo.volunteerPreference" />
       </Div>
@@ -71,7 +73,9 @@ export const OtherInfoForm = ({
         <Button type="button" onClick={() => handleSteps("back")}>
           Back
         </Button>
-        <Button type="submit">Continue</Button>
+        <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
+          Continue
+        </Button>
       </Div>
     </>
   );

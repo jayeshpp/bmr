@@ -7,6 +7,10 @@ import { useEffect, useState } from "react";
 import { IProfileResponse } from "@/interfaces/user.interface";
 import { ProfileInfo } from "./ProfileInfo";
 import API from "@/api";
+import { PersonalInfoView } from "./components/PersonalInfoView";
+import { ProfileView } from "./ProfileView";
+import { SocialMediaView } from "./components/SocialMediaView";
+import { Div } from "@/components/Div";
 
 function Profile({ userId, fullName }: any) {
   const [loading, setLoading] = useState(true);
@@ -48,9 +52,12 @@ function Profile({ userId, fullName }: any) {
         />
       </div>
       <div className="bg-white -mt-4 relative rounded-md p-4">
-        <ProfileCard fullName={fullName} />
-        <hr className="my-5" />
-        <ProfileInfo profile={profile} errorMessage={errorMessage} />
+        <PersonalInfoView personalInfo={profile?.personalInfo} fullName={fullName}/>
+        <SocialMediaView {...profile?.socialMedia} />
+        <Div className="h-20 flex items-center justify-center">
+          <hr className="w-10"/>
+        </Div>
+        <ProfileView profile={profile} />
       </div>
     </section>
   );

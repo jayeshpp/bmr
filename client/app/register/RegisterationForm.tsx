@@ -48,7 +48,7 @@ export const RegisterationForm = () => {
 
   return (
     <>
-      <Typography component="h1" variant="bold">
+      <Typography component="h1">
         Member Registration
       </Typography>
       <Typography component="p">

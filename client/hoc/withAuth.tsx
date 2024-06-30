@@ -27,12 +27,10 @@ const withAuth = <P extends object>(
       email,
       isAuthenticated,
     };
-
-    useEffect(() => {
-      if (!loading && !isAuthenticated) {
-        router.push("/login");
-      }
-    }, [loading, isAuthenticated, router]);
+    
+    if (!loading && !isAuthenticated) {
+      router.push("/login");
+    }
 
     if (loading) {
       return <div>Loading...</div>;

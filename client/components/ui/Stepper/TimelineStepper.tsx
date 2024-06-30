@@ -11,7 +11,7 @@ interface StepperProps {
 
 export const TimelineStepper: React.FC<StepperProps> = ({ children }) => {
   return (
-    <ol className="relative text-gray-500 border-s border-gray-200 dark:border-gray-700 dark:text-gray-400">
+    <ol className="relative text-gray-700 border-s border-gray-200 dark:border-gray-700 dark:text-gray-400">
       {children}
     </ol>
   );
@@ -58,7 +58,7 @@ export const TimelineStepperItem: React.FC<StepperItemProps> = ({
       </span>
       <h3 className="font-medium leading-tight">{title}</h3>
       <p className="text-sm">{details}</p>
-      <div>{children}</div>
+      <div className="pt-3">{children}</div>
     </li>
   );
 };

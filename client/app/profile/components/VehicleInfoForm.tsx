@@ -8,12 +8,14 @@ interface IVehicleInfoFormProps {
   values: IProfileProps;
   handleChange: any;
   handleSteps: (value: string) => void;
+  isSubmitting: boolean
 }
 
 export const VehicleInfoForm = ({
   values,
   handleChange,
   handleSteps,
+  isSubmitting
 }: IVehicleInfoFormProps) => {
   return (
     <>
@@ -51,7 +53,9 @@ export const VehicleInfoForm = ({
         <Button type="button" onClick={() => handleSteps("back")}>
           Back
         </Button>
-        <Button type="submit">Continue</Button>
+        <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
+          Continue
+        </Button>
       </Div>
     </>
   );

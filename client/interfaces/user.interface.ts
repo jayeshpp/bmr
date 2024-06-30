@@ -23,7 +23,7 @@ export interface IProfileProps {
     registrationNumber: string;
   }[];
   longestRideExperience: string;
-  ridingGroupMember: boolean;
+  ridingGroupMember: string;
   DLInfo: {
     DLNumber: string;
     DLIssuedAt: string;

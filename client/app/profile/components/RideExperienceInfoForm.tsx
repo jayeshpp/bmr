@@ -10,12 +10,14 @@ interface IRideExperienceInfoFormProps {
   values: IProfileProps;
   handleChange: any;
   handleSteps: (value: string) => void;
+  isSubmitting: boolean;
 }
 
 export const RideExperienceInfoForm = ({
   values,
   handleChange,
   handleSteps,
+  isSubmitting,
 }: IRideExperienceInfoFormProps) => {
   return (
     <>
@@ -32,13 +34,13 @@ export const RideExperienceInfoForm = ({
       <Div className="form-row">
         <RadioGroup
           name="ridingGroupMember"
-          selectedValue={values.ridingGroupMember ? "yes" : "no"}
+          selectedValue={values.ridingGroupMember}
           groupLabel="Part of any other riding groups?"
           onChange={handleChange("ridingGroupMember")}
           orientation="horizontal"
         >
-          <Radio id="yes" value="yes" label="Yes" />
-          <Radio id="no" value="no" label="No" />
+          <Radio id="yes" name="rideExp" value="yes" label="Yes" />
+          <Radio id="no" name="redeExp" value="no" label="No" />
         </RadioGroup>
         <ErrorMessage name="ridingGroupMember" />
       </Div>
@@ -46,7 +48,9 @@ export const RideExperienceInfoForm = ({
         <Button type="button" onClick={() => handleSteps("back")}>
           Back
         </Button>
-        <Button type="submit">Continue</Button>
+        <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
+          Continue
+        </Button>
       </Div>
     </>
   );

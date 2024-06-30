@@ -15,6 +15,8 @@ import { OtherInfoForm } from "./components/OtherInfoForm";
 import { SocialMediaInfoForm } from "./components/SocialMediaInfoForm";
 import { InsuranceInfoForm } from "./components/InsuranceInfoForm";
 import { AcknowledgmentInfoForm } from "./components/AcknowledgmentInfoForm";
+import { sleep } from "@/lib/utils";
+import { EmergencyContactInfoForm } from "./components/EmergencyContactInfoForm";
 
 interface IProfileFormProps {
   initialValues: IProfileProps;
@@ -77,7 +79,7 @@ const otherInfoSchema = Yup.object().shape({
     ),
     area: Yup.string().required("Area is required"),
     volunteerPreference: Yup.string()
-      .oneOf(["Yes", "No"], "Invalid volunteer preference")
+      .oneOf(["yes", "no", "maybe"], "Invalid volunteer preference")
       .required("Volunteer preference is required"),
     specialNote: Yup.string().optional(),
   }),
@@ -140,7 +142,7 @@ const rideExperienceShema = Yup.object().shape({
   longestRideExperience: Yup.string().required(
     "Longest ride experience is required",
   ),
-  ridingGroupMember: Yup.boolean().required(
+  ridingGroupMember: Yup.string().required(
     "Riding group membership information is required",
   ),
 });
@@ -185,48 +187,54 @@ const stepComponents: IStepComponent[] = [
   },
   {
     id: 3,
+    title: "Emergency Contact Information",
+    subTitle: "",
+    component: EmergencyContactInfoForm,
+  },
+  {
+    id: 4,
     title: "Social Media Information",
     subTitle: "",
     component: SocialMediaInfoForm,
   },
   {
-    id: 4,
+    id: 5,
     title: "Vehicle Information",
     subTitle: "",
     component: VehicleInfoForm,
   },
   {
-    id: 5,
+    id: 6,
     title: "DL Information",
     subTitle: "",
     component: DLInfoForm,
   },
   {
-    id: 6,
+    id: 7,
     title: "Insurance Information",
     subTitle: "",
     component: InsuranceInfoForm,
   },
   {
-    id: 7,
+    id: 8,
     title: "Medical Information",
     subTitle: "",
     component: MedicalInfoForm,
   },
   {
-    id: 8,
+    id: 9,
     title: "Ride Experience",
     subTitle: "",
     component: RideExperienceInfoForm,
   },
   {
-    id: 9,
+    id: 10,
     title: "Other Information",
     subTitle: "",
     component: OtherInfoForm,
   },
   {
-    id: 10,
+    id: 11,
     title: "Acknowledgement",
     subTitle: "",
     component: AcknowledgmentInfoForm,
@@ -234,7 +242,7 @@ const stepComponents: IStepComponent[] = [
 ];
 
 export const ProfileForm = ({ initialValues, onSubmit }: IProfileFormProps) => {
-  const [currentStep, setCurrentStep] = useState(10);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const validationSchema = () => {
     switch (currentStep) {
@@ -243,20 +251,22 @@ export const ProfileForm = ({ initialValues, onSubmit }: IProfileFormProps) => {
       case 2:
         return contactInfoSchema;
       case 3:
-        return socialMediaSchema;
+        return emergencyContactInfoSchema;
       case 4:
-        return vehicleInfoSchema;
+        return socialMediaSchema;
       case 5:
-        return DLInfoSchema;
+        return vehicleInfoSchema;
       case 6:
-        return insuranceSchema;
+        return DLInfoSchema;
       case 7:
-        return medicalAndInsuranceInfoSchema;
+        return insuranceSchema;
       case 8:
-        return rideExperienceShema;
+        return medicalAndInsuranceInfoSchema;
       case 9:
-        return otherInfoSchema;
+        return rideExperienceShema;
       case 10:
+        return otherInfoSchema;
+      case 11:
         return ackSchema;
       default:
         return personalInfoSchema;
@@ -277,21 +287,17 @@ export const ProfileForm = ({ initialValues, onSubmit }: IProfileFormProps) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { validateForm }) => {
+          await sleep(500);
           await validateForm().then(() => {
-            onSubmit(values);
+            if(currentStep > stepComponents.length) {
+              onSubmit(values);
+            }
             setCurrentStep((cs) => cs + 1);
           });
         }}
       >
-        {({
-          isSubmitting,
-          handleChange,
-          handleBlur,
-          values,
-          errors,
-          touched,
-        }) => {
-          console.log({ values, errors, touched });
+        {({ isSubmitting, handleChange, handleBlur, values, errors }) => {
+          console.log(errors);
 
           return (
             <Form>
@@ -310,6 +316,7 @@ export const ProfileForm = ({ initialValues, onSubmit }: IProfileFormProps) => {
                           handleChange={handleChange}
                           handleBlur={handleBlur}
                           handleSteps={handleSteps}
+                          isSubmitting={isSubmitting}
                         />
                       )}
                     </TimelineStepperItem>
@@ -322,7 +329,7 @@ export const ProfileForm = ({ initialValues, onSubmit }: IProfileFormProps) => {
                     Back
                   </Button>
                   <Button
-                    type="button"
+                    type="submit"
                     disabled={isSubmitting}
                     onClick={handleSaveAndContinue}
                   >

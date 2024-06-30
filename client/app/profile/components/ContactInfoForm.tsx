@@ -9,12 +9,14 @@ interface IContactInfoFormProps {
   values: IProfileProps;
   handleChange: any;
   handleSteps: (value: string) => void;
+  isSubmitting: boolean;
 }
 
 export const ContactInfoForm = ({
   values,
   handleChange,
   handleSteps,
+  isSubmitting,
 }: IContactInfoFormProps) => {
   return (
     <>
@@ -64,7 +66,9 @@ export const ContactInfoForm = ({
         <Button type="button" onClick={() => handleSteps("back")}>
           Back
         </Button>
-        <Button type="submit">Continue</Button>
+        <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
+          Continue
+        </Button>
       </Div>
     </>
   );

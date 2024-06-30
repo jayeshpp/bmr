@@ -2,6 +2,8 @@
 
 import withAuth from "@/hoc/withAuth";
 import { ProfileForm } from "../ProfileForm";
+import API from "@/api";
+import { toast } from "react-toastify";
 
 const initialValues = {
   personalInfo: {
@@ -30,7 +32,7 @@ const initialValues = {
     },
   ],
   longestRideExperience: "",
-  ridingGroupMember: true,
+  ridingGroupMember: "no",
   DLInfo: {
     DLNumber: "",
     DLIssuedAt: "",
@@ -61,7 +63,7 @@ const initialValues = {
   otherInfo: {
     nativeInKerala: "",
     area: "",
-    volunteerPreference: "Yes",
+    volunteerPreference: "yes",
     specialNote: "",
   },
   ack1: false,
@@ -70,14 +72,20 @@ const initialValues = {
   agreeToRules: false,
 };
 
-function updateProfile() {
-  const onSubmit = (values: any) => {
-    // console.log(values);
+function updateProfile({ userId }: any) {
+  const onSubmit = async (values: any) => {
+    console.log(values);
+    try {
+      await API.user.updateProfile(userId, values);
+      toast.success("Profile updated successfully");
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+    }
   };
   return (
-    <div>
+    <>
       <ProfileForm initialValues={initialValues} onSubmit={onSubmit} />
-    </div>
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 interface IDiv {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 }
 export const Div = ({ children, className }: IDiv) => {
