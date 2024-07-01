@@ -1,11 +1,12 @@
 "use client";
 
+import { Div } from "@/components/Div";
 import { RegisterationForm } from "./RegisterationForm";
 
 export default function Registeration() {
   return (
-    <section>
+    <Div className="page-main">
       <RegisterationForm />
-    </section>
+    </Div>
   );
 }

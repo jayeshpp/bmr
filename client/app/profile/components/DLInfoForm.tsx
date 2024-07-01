@@ -1,12 +1,14 @@
 import { Div } from "@/components/Div";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { Button } from "@/components/ui/Button";
+import { DatePicker } from "@/components/ui/DatePicker";
 import { TextBox } from "@/components/ui/TextBox";
 import { IProfileProps } from "@/interfaces/user.interface";
 
 interface IDLInfoFormProps {
   values: IProfileProps;
   handleChange: any;
+  setFieldValue: any;
   handleSteps: (value: string) => void;
   isSubmitting: boolean;
 }
@@ -16,6 +18,7 @@ export const DLInfoForm = ({
   handleChange,
   handleSteps,
   isSubmitting,
+  setFieldValue,
 }: IDLInfoFormProps) => {
   return (
     <>
@@ -25,27 +28,27 @@ export const DLInfoForm = ({
             onChange: handleChange("DLInfo.DLNumber"),
             value: values.DLInfo.DLNumber,
           }}
-          label="DL number"
+          label="Number"
         />
         <ErrorMessage name="DLInfo.DLNumber" />
       </Div>
       <Div className="form-row">
-        <TextBox
-          inputProps={{
-            onChange: handleChange("DLInfo.DLIssuedAt"),
-            value: values.DLInfo.DLIssuedAt,
+        <DatePicker
+          label="Issued At"
+          onChange={(value) => {
+            setFieldValue("DLInfo.DLIssuedAt", value);
           }}
-          label="DL issud at"
+          value={values.DLInfo.DLIssuedAt}
         />
         <ErrorMessage name="DLInfo.DLIssuedAt" />
       </Div>
       <Div className="form-row">
-        <TextBox
-          inputProps={{
-            onChange: handleChange("DLInfo.DLValidUpTo"),
-            value: values.DLInfo.DLValidUpTo,
+        <DatePicker
+          label="Valid Up To"
+          onChange={(value) => {
+            setFieldValue("DLInfo.DLValidUpTo", value);
           }}
-          label="DL valid upto"
+          value={values.DLInfo.DLValidUpTo}
         />
         <ErrorMessage name="DLInfo.DLValidUpTo" />
       </Div>
@@ -60,7 +63,11 @@ export const DLInfoForm = ({
         <ErrorMessage name="DLInfo.DLFile" />
       </Div>
       <Div className="flex justify-end gap-2">
-        <Button type="button" onClick={() => handleSteps("back")}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => handleSteps("back")}
+        >
           Back
         </Button>
         <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>

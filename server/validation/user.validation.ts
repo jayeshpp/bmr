@@ -197,11 +197,7 @@ export const userProfileValidationSchema = Joi.object({
       'string.empty': 'Facebook ID is required',
       'any.required': 'Facebook ID is required',
     }),
-    youtubeLink: Joi.string().uri().required().messages({
-      'string.uri': 'Invalid URL format for YouTube link',
-      'string.empty': 'YouTube link is required',
-      'any.required': 'YouTube link is required',
-    }),
+    youtubeLink: Joi.string().uri(),
   }).required(),
   insuranceInfo: Joi.object({
     company: Joi.string().required().messages({

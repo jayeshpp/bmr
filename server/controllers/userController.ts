@@ -7,6 +7,7 @@ import {
   userValidationSchema,
 } from "../validation/user.validation";
 import UserProfile from "../models/UserProfile";
+import { initialEmptyValues } from "../constants/user.constants";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   const { firstName, lastName, email, password } = req.body;
@@ -38,8 +39,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     await newUser.save();
 
     // Create empty profile
-    /* const newProfile = new UserProfile({ userId: newUser._id });
-    await newProfile.save(); */
+    const newProfile = new UserProfile({...initialEmptyValues, userId: newUser._id });
+    await newProfile.save({ validateBeforeSave: false });
 
     // Generate JWT token
     const token = jwt.sign(

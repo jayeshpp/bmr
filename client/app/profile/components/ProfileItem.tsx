@@ -20,7 +20,13 @@ export const ProfileItem: FC<IProfileItem> = ({
         <Typography variant="bodySmall">{description}</Typography>
       )}
       <Typography weight={600} className="pt-1">
-        {typeof value === "boolean" ? (value ? "YES" : "NO") : value ? value : "-"}
+        {typeof value === "boolean"
+          ? value
+            ? "YES"
+            : "NO"
+          : value
+            ? value
+            : "-"}
       </Typography>
     </Div>
   );

@@ -48,7 +48,7 @@ export const RegisterationForm = () => {
 
   return (
     <>
-      <Typography component="h1">
+      <Typography component="h2" variant="h2">
         Member Registration
       </Typography>
       <Typography component="p">
@@ -106,7 +106,9 @@ export const RegisterationForm = () => {
               />
               <ErrorMessage name="password" />
             </Div>
-            <Button loading={isSubmitting}>Registeration</Button>
+            <Div className="flex justify-end">
+              <Button loading={isSubmitting}>Registeration</Button>
+            </Div>
           </Form>
         )}
       </Formik>

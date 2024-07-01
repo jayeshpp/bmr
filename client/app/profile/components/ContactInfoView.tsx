@@ -16,11 +16,11 @@ export const ContactInfoView = (profile: any) => {
     <Div>
       <ProfileItem
         title="Mobile Number"
-        value={`${countryCode} ${mobileNumber}`}
+        value={`${mobileNumber ? `${countryCode} ${mobileNumber}` : ""}`}
       />
       <ProfileItem
         title="Whatsapp Number"
-        value={`${countryCode} ${whatsappNumber}`}
+        value={`${whatsappNumber ? `${countryCode} ${whatsappNumber}` : ""} `}
       />
       <ProfileItem title="Home Address" value={homeAddress} />
       <ProfileItem title="Office Address" value={officeAddress} />

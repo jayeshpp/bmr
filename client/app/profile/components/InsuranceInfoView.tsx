@@ -3,7 +3,7 @@ import { ProfileItem } from "./ProfileItem";
 
 export const InsuranceInfoView = (profile: any) => {
   const {
-    insuraceInfo: { company, number, validity },
+    insuranceInfo: { company, number, validity },
   } = profile;
 
   return (

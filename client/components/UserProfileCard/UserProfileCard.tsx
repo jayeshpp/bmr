@@ -32,7 +32,9 @@ export const UserProfileCard = () => {
         height={100}
         alt={fullName}
       />
-      <Typography className="pt-3" variant="h2">{fullName}</Typography>
+      <Typography className="pt-3" variant="h2">
+        {fullName}
+      </Typography>
       <Typography>{email}</Typography>
     </div>
   );

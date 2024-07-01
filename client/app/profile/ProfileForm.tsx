@@ -151,9 +151,7 @@ const socialMediaSchema = Yup.object().shape({
   socialMedia: Yup.object().shape({
     instagramId: Yup.string().required("Instagram ID is required"),
     facebookId: Yup.string().required("Facebook ID is required"),
-    youtubeLink: Yup.string()
-      .url("Invalid URL format for YouTube link")
-      .required("YouTube link is required"),
+    youtubeLink: Yup.string(),
   }),
 });
 
@@ -243,6 +241,7 @@ const stepComponents: IStepComponent[] = [
 
 export const ProfileForm = ({ initialValues, onSubmit }: IProfileFormProps) => {
   const [currentStep, setCurrentStep] = useState(1);
+  console.log(initialValues);
 
   const validationSchema = () => {
     switch (currentStep) {
@@ -287,18 +286,22 @@ export const ProfileForm = ({ initialValues, onSubmit }: IProfileFormProps) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { validateForm }) => {
-          await sleep(500);
+          await sleep(300);
           await validateForm().then(() => {
-            if(currentStep > stepComponents.length) {
+            if (currentStep > stepComponents.length) {
               onSubmit(values);
             }
             setCurrentStep((cs) => cs + 1);
           });
         }}
       >
-        {({ isSubmitting, handleChange, handleBlur, values, errors }) => {
-          console.log(errors);
-
+        {({
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          setFieldValue,
+          values,
+        }) => {
           return (
             <Form>
               <TimelineStepper>
@@ -316,6 +319,7 @@ export const ProfileForm = ({ initialValues, onSubmit }: IProfileFormProps) => {
                           handleChange={handleChange}
                           handleBlur={handleBlur}
                           handleSteps={handleSteps}
+                          setFieldValue={setFieldValue}
                           isSubmitting={isSubmitting}
                         />
                       )}
@@ -323,20 +327,17 @@ export const ProfileForm = ({ initialValues, onSubmit }: IProfileFormProps) => {
                   ),
                 )}
               </TimelineStepper>
-              {currentStep > stepComponents.length && (
-                <Div className="form-row flex gap-2 justify-end">
-                  <Button type="button" onClick={() => handleSteps("back")}>
-                    Back
-                  </Button>
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    onClick={handleSaveAndContinue}
-                  >
-                    Save Profile
-                  </Button>
-                </Div>
-              )}
+              <Div className="form-row flex gap-2 justify-end">
+                <Button
+                  type="submit"
+                  disabled={
+                    isSubmitting || currentStep <= stepComponents.length
+                  }
+                  onClick={handleSaveAndContinue}
+                >
+                  Save Profile
+                </Button>
+              </Div>
             </Form>
           );
         }}

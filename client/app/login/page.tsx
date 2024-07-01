@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { LoginForm } from "./LoginForm";
 import { useRouter } from "next/navigation";
 import withAuth from "@/hoc/withAuth";
+import { Div } from "@/components/Div";
 
 interface ILogin {
   isAuthenticated: boolean;
@@ -11,18 +12,17 @@ interface ILogin {
 
 function Login({ isAuthenticated }: ILogin) {
   const router = useRouter();
-  console.log(isAuthenticated);
 
   useEffect(() => {
     if (isAuthenticated) {
       router.push("/");
     }
-  }, []);
+  }, [isAuthenticated, router]);
 
   return (
-    <section>
+    <Div className="page-main">
       <LoginForm />
-    </section>
+    </Div>
   );
 }
 

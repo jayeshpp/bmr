@@ -10,14 +10,14 @@ interface IOtherInfoFormProps {
   values: IProfileProps;
   handleChange: any;
   handleSteps: (value: string) => void;
-  isSubmitting: boolean
+  isSubmitting: boolean;
 }
 
 export const OtherInfoForm = ({
   values,
   handleChange,
   handleSteps,
-  isSubmitting
+  isSubmitting,
 }: IOtherInfoFormProps) => {
   return (
     <>
@@ -70,7 +70,11 @@ export const OtherInfoForm = ({
         <ErrorMessage name="otherInfo.specialNote" />
       </Div>
       <Div className="flex justify-end gap-2">
-        <Button type="button" onClick={() => handleSteps("back")}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => handleSteps("back")}
+        >
           Back
         </Button>
         <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>

@@ -34,9 +34,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const response = await toast.promise(
         API.auth.logIn({ email, password }),
         {
-          pending: "Promise is pending",
-          success: "Promise resolved 👌",
-          error: "Promise rejected 🤯",
+          pending: "Processing...",
+          success: "Logged in successfully 👌",
+          error: "Something went wrong 🤯",
         },
       );
       const sessionData = await API.auth.checkSession();

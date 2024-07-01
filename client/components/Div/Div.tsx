@@ -3,5 +3,5 @@ interface IDiv {
   className?: string;
 }
 export const Div = ({ children, className }: IDiv) => {
-  return <div className={`${className}`}>{children}</div>;
+  return <div className={`${className ? className : ""}`}>{children}</div>;
 };

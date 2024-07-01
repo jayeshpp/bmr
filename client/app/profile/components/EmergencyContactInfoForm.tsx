@@ -2,7 +2,6 @@ import { Div } from "@/components/Div";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { Button } from "@/components/ui/Button";
 import { TextBox } from "@/components/ui/TextBox";
-import { Textarea } from "@/components/ui/Textarea";
 import { IProfileProps } from "@/interfaces/user.interface";
 
 interface IEmergencyContactInfoFormProps {
@@ -23,29 +22,35 @@ export const EmergencyContactInfoForm = ({
       <Div className="form-row">
         <TextBox
           inputProps={{
-            onChange: handleChange("emergencyContactInfo.emergencyContactNameInFamily"),
+            onChange: handleChange(
+              "emergencyContactInfo.emergencyContactNameInFamily",
+            ),
             value: values.emergencyContactInfo.emergencyContactNameInFamily,
             maxLength: 10,
           }}
           label="Emergency contact name in Family"
-          />
+        />
         <ErrorMessage name="emergencyContactInfo.emergencyContactNameInFamily" />
       </Div>
       <Div className="form-row">
         <TextBox
           inputProps={{
-            onChange: handleChange("emergencyContactInfo.emergencyContactNumberInFamily"),
+            onChange: handleChange(
+              "emergencyContactInfo.emergencyContactNumberInFamily",
+            ),
             value: values.emergencyContactInfo.emergencyContactNumberInFamily,
             maxLength: 10,
           }}
           label="Emergency contact number in Family"
-          />
+        />
         <ErrorMessage name="emergencyContactInfo.emergencyContactNumberInFamily" />
       </Div>
       <Div className="form-row">
-        <Textarea
-          textareaProps={{
-            onChange: handleChange("emergencyContactInfo.emergencyContactRelationship"),
+        <TextBox
+          inputProps={{
+            onChange: handleChange(
+              "emergencyContactInfo.emergencyContactRelationship",
+            ),
             value: values.emergencyContactInfo.emergencyContactRelationship,
           }}
           label="Relationship with the above person"
@@ -53,9 +58,11 @@ export const EmergencyContactInfoForm = ({
         <ErrorMessage name="emergencyContactInfo.emergencyContactRelationship" />
       </Div>
       <Div className="form-row">
-        <Textarea
-          textareaProps={{
-            onChange: handleChange("emergencyContactInfo.emergencyContactNameInBangalore"),
+        <TextBox
+          inputProps={{
+            onChange: handleChange(
+              "emergencyContactInfo.emergencyContactNameInBangalore",
+            ),
             value: values.emergencyContactInfo.emergencyContactNameInBangalore,
           }}
           label="Emergency Contact Person in Bangalore"
@@ -63,19 +70,25 @@ export const EmergencyContactInfoForm = ({
         <ErrorMessage name="emergencyContactInfo.emergencyContactNameInBangalore" />
       </Div>
       <Div className="form-row">
-        <Textarea
-          textareaProps={{
-            onChange: handleChange("emergencyContactInfo.emergencyContactNumberInBangalore"),
-            value: values.emergencyContactInfo.emergencyContactNumberInBangalore,
+        <TextBox
+          inputProps={{
+            onChange: handleChange(
+              "emergencyContactInfo.emergencyContactNumberInBangalore",
+            ),
+            maxLength: 10,
+            value:
+              values.emergencyContactInfo.emergencyContactNumberInBangalore,
           }}
           label="Emergency Contact Number in Bangalore"
         />
         <ErrorMessage name="emergencyContactInfo.emergencyContactNumberInBangalore" />
       </Div>
       <Div className="form-row">
-        <Textarea
-          textareaProps={{
-            onChange: handleChange("emergencyContactInfo.emergencyContactNameInBMR"),
+        <TextBox
+          inputProps={{
+            onChange: handleChange(
+              "emergencyContactInfo.emergencyContactNameInBMR",
+            ),
             value: values.emergencyContactInfo.emergencyContactNameInBMR,
           }}
           label="Friends who can be contacted in BMR"
@@ -83,8 +96,8 @@ export const EmergencyContactInfoForm = ({
         <ErrorMessage name="emergencyContactInfo.emergencyContactNameInBMR" />
       </Div>
       <Div className="form-row">
-        <Textarea
-          textareaProps={{
+        <TextBox
+          inputProps={{
             onChange: handleChange("emergencyContactInfo.location"),
             value: values.emergencyContactInfo.location,
           }}
@@ -93,7 +106,11 @@ export const EmergencyContactInfoForm = ({
         <ErrorMessage name="emergencyContactInfo.location" />
       </Div>
       <Div className="flex justify-end gap-2">
-        <Button type="button" onClick={() => handleSteps("back")}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => handleSteps("back")}
+        >
           Back
         </Button>
         <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>

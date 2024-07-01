@@ -4,8 +4,13 @@ import withAuth from "@/hoc/withAuth";
 import { ProfileForm } from "../ProfileForm";
 import API from "@/api";
 import { toast } from "react-toastify";
+import { Div } from "@/components/Div";
+import { IProfileResponse } from "@/interfaces/user.interface";
+import { useEffect, useState } from "react";
+import { PageLoading } from "@/components/PageLoading";
+import { useRouter } from "next/navigation";
 
-const initialValues = {
+const initialEmptyValues = {
   personalInfo: {
     dob: "",
     profilePic: "",
@@ -72,21 +77,56 @@ const initialValues = {
   agreeToRules: false,
 };
 
-function updateProfile({ userId }: any) {
+function UpdateProfile({ userId }: any) {
+  const [loading, setLoading] = useState(true);
+  const [initialValues, setInitialValues] = useState<any>(initialEmptyValues);
+
+  const router = useRouter();
+
   const onSubmit = async (values: any) => {
-    console.log(values);
     try {
+      delete values.userId;
+      delete values._id;
+      delete values.__v;
+      delete values.createdAt;
+      delete values.updatedAt;
+      delete values.vehicleInfo[0]._id;
+      console.log(values);
       await API.user.updateProfile(userId, values);
       toast.success("Profile updated successfully");
+      router.push("/profile");
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Something went wrong!");
     }
   };
+
+  const fetchProfileByUserId = async (userId: string) => {
+    setLoading(true);
+    try {
+      const response: IProfileResponse =
+        await API.user.getProfileByUserId(userId);
+
+      if (response) {
+        setInitialValues(response);
+      }
+    } catch (error: any) {
+      setInitialValues(initialEmptyValues);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfileByUserId(userId);
+  }, [userId]);
+
+  if (loading) return <PageLoading />;
+
   return (
-    <>
+    <Div className="page-main">
       <ProfileForm initialValues={initialValues} onSubmit={onSubmit} />
-    </>
+    </Div>
   );
 }
 
-export default withAuth(updateProfile);
+export default withAuth(UpdateProfile);

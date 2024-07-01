@@ -45,7 +45,11 @@ export const RideExperienceInfoForm = ({
         <ErrorMessage name="ridingGroupMember" />
       </Div>
       <Div className="flex justify-end gap-2">
-        <Button type="button" onClick={() => handleSteps("back")}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => handleSteps("back")}
+        >
           Back
         </Button>
         <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>

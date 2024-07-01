@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthProvider";
 import { Form, Formik } from "formik";
 import { Div } from "@/components/Div";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { Typography } from "@/components/ui/Typography";
 
 const LoginSchema = Yup.object().shape({
   userName: Yup.string().email("Invalid email").required("Email is required"),
@@ -38,6 +39,9 @@ export const LoginForm = () => {
     >
       {({ handleChange, values }) => (
         <Form>
+          <Typography component="h2" variant="h2">
+            Login
+          </Typography>
           <Div className="form-row">
             <TextBox
               inputProps={{
@@ -60,7 +64,9 @@ export const LoginForm = () => {
             />
             <ErrorMessage name="password" />
           </Div>
-          <Button>Login</Button>
+          <Div className="flex justify-end">
+            <Button>Login</Button>
+          </Div>
         </Form>
       )}
     </Formik>

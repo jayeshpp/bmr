@@ -63,7 +63,11 @@ export const ContactInfoForm = ({
         <ErrorMessage name="contactInfo.officeAddress" />
       </Div>
       <Div className="flex justify-end gap-2">
-        <Button type="button" onClick={() => handleSteps("back")}>
+        <Button
+          type="button"
+          variant="outlined"
+          onClick={() => handleSteps("back")}
+        >
           Back
         </Button>
         <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>

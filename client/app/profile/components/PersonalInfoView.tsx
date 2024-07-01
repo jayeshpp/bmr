@@ -18,7 +18,7 @@ export const PersonalInfoView = ({ personalInfo, fullName }: any) => {
         {fullName}
         {nickName && nickName}
       </Typography>
-      <Typography>{format(dob, "yyyy-MM-dd")}</Typography>
+      <Typography>{dob ? format(dob, "yyyy-MM-dd") : "-"}</Typography>
       <Typography>{occupation}</Typography>
     </Div>
   );
